@@ -6,6 +6,8 @@ require("dotenv").config();
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST"],
@@ -28,22 +30,22 @@ const contactLimiter = rateLimit({
 });
 
 app.post("/send-mail", contactLimiter, async (req, res) => {
-
-if (
-  !name ||
-  !phone ||
-  !message ||
-  name.trim().length < 2 ||
-  phone.trim().length < 10 ||
-  message.trim().length < 10
-) {
-  return res.status(400).json({
-    success: false,
-    message: "Lütfen tüm alanları doğru şekilde doldurun."
-  });
-}
   try {
     const { name, phone, brand, message } = req.body;
+
+    if (
+      !name ||
+      !phone ||
+      !message ||
+      name.trim().length < 2 ||
+      phone.trim().length < 10 ||
+      message.trim().length < 10
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Lütfen tüm alanları doğru şekilde doldurun."
+      });
+    }
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -61,7 +63,7 @@ if (
         <h2>Yeni Teklif Talebi</h2>
         <p><strong>Ad Soyad:</strong> ${name}</p>
         <p><strong>Telefon:</strong> ${phone}</p>
-        <p><strong>Marka / İşletme:</strong> ${brand}</p>
+        <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
         <p><strong>Mesaj:</strong> ${message}</p>
       `,
     });
