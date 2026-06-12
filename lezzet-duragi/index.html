@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezzet Durağı – Premium Restoran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════ */
+:root {
+  --black:    #0A0A0A;
+  --dark:     #141414;
+  --dark2:    #1C1C1C;
+  --dark3:    #242424;
+  --crimson:  #C41E3A;
+  --crimson-l:#E8294F;
+  --crimson-d:#8B0020;
+  --cream:    #F5EFE0;
+  --cream-d:  #E8DFC8;
+  --gold:     #D4A017;
+  --gold-l:   #F0C040;
+  --white:    #FFFFFF;
+  --gray:     #888888;
+  --gray-l:   #BBBBBB;
+
+  --ff-disp: 'Playfair Display', Georgia, serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ease-smooth: cubic-bezier(.25,.46,.45,.94);
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ══════════════════════════════════════
+   RESET
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-body);
+  background: var(--black);
+  color: var(--cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--ff-body); cursor: pointer; border: none; }
+
+/* ══════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .28em; text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 18px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  display: block; width: 32px; height: 1px;
+  background: var(--crimson);
+}
+
+.section-title {
+  font-family: var(--ff-disp);
+  font-size: clamp(38px, 5vw, 62px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--cream);
+}
+.section-title em { font-style: italic; color: var(--crimson); }
+
+.btn-crimson {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 32px;
+  background: var(--crimson);
+  color: var(--white);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: background .3s, transform .3s;
+  position: relative; overflow: hidden;
+}
+.btn-crimson::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--crimson-l);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s var(--ease-smooth);
+}
+.btn-crimson:hover::after { transform: scaleX(1); }
+.btn-crimson span, .btn-crimson svg { position: relative; z-index: 1; }
+.btn-crimson:hover { transform: translateY(-2px); }
+
+.btn-outline-cream {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 30px;
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(245,239,224,.3);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  transition: all .3s;
+}
+.btn-outline-cream:hover {
+  background: rgba(245,239,224,.08);
+  border-color: var(--cream);
+}
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Red divider line */
+.red-rule {
+  width: 60px; height: 2px;
+  background: var(--crimson);
+  margin: 24px 0;
+}
+
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 24px 0;
+  transition: background .4s, padding .4s, backdrop-filter .4s;
+}
+#nav.solid {
+  background: rgba(10,10,10,.96);
+  backdrop-filter: blur(20px);
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(196,30,58,.15);
+}
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; }
+.nav-logo {
+  display: flex; align-items: center; gap: 4px;
+  font-family: var(--ff-disp);
+}
+.nav-logo-main {
+  font-size: 22px; font-weight: 700;
+  color: var(--cream); letter-spacing: .02em;
+}
+.nav-logo-dot { width: 6px; height: 6px; background: var(--crimson); border-radius: 50%; margin: 0 2px; }
+.nav-logo-sub {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gray); margin-left: 4px;
+  align-self: flex-end; margin-bottom: 2px;
+}
+.nav-links-list {
+  display: flex; align-items: center; gap: 38px;
+  list-style: none;
+}
+.nav-links-list a {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gray-l);
+  transition: color .3s;
+  position: relative;
+}
+.nav-links-list a:hover { color: var(--cream); }
+.nav-links-list a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1px; background: var(--crimson);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform .3s;
+}
+.nav-links-list a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav-res-btn { padding: 11px 22px !important; font-size: 11px !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: all .3s; }
+
+.mob-nav {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: var(--black);
+  flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+}
+.mob-nav.show { display: flex; }
+.mob-nav a {
+  font-family: var(--ff-disp);
+  font-size: 36px; font-weight: 700; color: var(--cream);
+  transition: color .3s;
+}
+.mob-nav a:hover { color: var(--crimson); }
+.mob-close {
+  position: absolute; top: 24px; right: 36px;
+  font-size: 30px; color: var(--gray); cursor: pointer; transition: color .3s;
+}
+.mob-close:hover { color: var(--crimson); }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+#hero {
+  min-height: 100svh;
+  background: var(--black);
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 70% 50%, rgba(196,30,58,.12) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 90% 20%, rgba(212,160,23,.06) 0%, transparent 50%);
+}
+/* Grid texture overlay */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,239,224,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,239,224,.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 1;
+}
+/* Ember particles canvas */
+#particles { position: absolute; inset: 0; pointer-events: none; }
+
+.hero-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  padding: 120px 0 80px;
+}
+.hero-content { }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 7px 16px;
+  background: rgba(196,30,58,.12);
+  border: 1px solid rgba(196,30,58,.25);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 32px;
+}
+.hero-tag-dot { width: 6px; height: 6px; background: var(--crimson); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-h1 {
+  font-family: var(--ff-disp);
+  font-size: clamp(52px, 7vw, 90px);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--cream);
+  margin-bottom: 28px;
+}
+.hero-h1 .accent { color: var(--crimson); font-style: italic; }
+.hero-h1 .underline-draw {
+  position: relative; display: inline-block;
+}
+.hero-h1 .underline-draw::after {
+  content: '';
+  position: absolute; bottom: -6px; left: 0;
+  height: 3px; width: 100%;
+  background: var(--crimson);
+  transform: scaleX(0); transform-origin: left;
+  animation: drawLine 1.2s .8s var(--ease-smooth) forwards;
+}
+@keyframes drawLine { to { transform: scaleX(1); } }
+
+.hero-sub {
+  font-size: 16px; font-weight: 300;
+  color: var(--gray-l);
+  line-height: 1.75; max-width: 460px;
+  margin-bottom: 44px;
+}
+.hero-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.hero-badge-row {
+  display: flex; gap: 32px; margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(245,239,224,.08);
+}
+.hero-badge-num {
+  font-family: var(--ff-disp);
+  font-size: 38px; font-weight: 700; color: var(--cream);
+}
+.hero-badge-num span { color: var(--crimson); }
+.hero-badge-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gray); margin-top: 4px;
+}
+
+/* Hero visual */
+.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+.hero-plate-wrap {
+  position: relative; width: 460px; max-width: 100%;
+}
+.hero-plate {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2A1A0A 0%, #0D0807 100%);
+  border: 1px solid rgba(245,239,224,.06);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 80px rgba(196,30,58,.15), 0 40px 100px rgba(0,0,0,.8);
+}
+.hero-plate::before {
+  content: '';
+  position: absolute; inset: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,239,224,.04);
+}
+.hero-plate-svg { width: 80%; height: 80%; position: relative; z-index: 1; }
+.hero-plate-label {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--ff-disp);
+  font-size: 13px; font-style: italic; font-weight: 400;
+  color: rgba(245,239,224,.4);
+  white-space: nowrap;
+}
+.hero-floating-card {
+  position: absolute; left: -44px; bottom: 60px;
+  background: var(--dark2);
+  border: 1px solid rgba(196,30,58,.2);
+  padding: 18px 22px;
+  min-width: 180px;
+  animation: floatCard 4s ease-in-out infinite;
+}
+@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.fc-label { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--crimson); margin-bottom: 6px; }
+.fc-value { font-family: var(--ff-disp); font-size: 20px; font-weight: 700; color: var(--cream); }
+.fc-sub { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+.hero-floating-card2 {
+  position: absolute; right: -32px; top: 80px;
+  background: var(--crimson);
+  padding: 20px 24px;
+  text-align: center;
+  animation: floatCard 4s 2s ease-in-out infinite;
+}
+.fc2-num { font-family: var(--ff-disp); font-size: 32px; font-weight: 700; color: var(--white); }
+.fc2-text { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-top: 2px; }
+
+.hero-scroll {
+  position: absolute; bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  color: var(--gray); font-size: 10px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  z-index: 2;
+}
+.scroll-line {
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, var(--crimson), transparent);
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim { 0%,100%{opacity:.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+
+/* ══════════════════════════════════════
+   MARQUEE STRIP
+══════════════════════════════════════ */
+.marquee-strip {
+  background: var(--crimson);
+  padding: 14px 0;
+  overflow: hidden;
+}
+.marquee-inner {
+  display: flex; gap: 0; white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+.m-item {
+  display: inline-flex; align-items: center; gap: 0;
+  flex-shrink: 0;
+}
+.m-text {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+  padding: 0 32px;
+}
+.m-sep {
+  color: rgba(255,255,255,.4);
+  font-size: 16px; line-height: 1;
+}
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ══════════════════════════════════════
+   ABOUT
+══════════════════════════════════════ */
+#about { padding: 120px 0; background: var(--dark); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-visual-wrap { position: relative; }
+.about-main-img {
+  width: 100%; aspect-ratio: 4/5;
+  background: linear-gradient(145deg, #1A0A08 0%, #2D1410 40%, #1A1010 100%);
+  position: relative; overflow: hidden;
+}
+.about-main-img-inner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: .9;
+}
+.about-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,.85) 0%, transparent 55%);
+  display: flex; align-items: flex-end; padding: 32px;
+}
+.about-overlay-quote {
+  font-family: var(--ff-disp);
+  font-size: 18px; font-style: italic; font-weight: 400;
+  color: rgba(245,239,224,.8);
+  line-height: 1.5;
+}
+.about-accent-box {
+  position: absolute; top: -24px; right: -24px;
+  background: var(--crimson);
+  padding: 28px 24px; text-align: center;
+  min-width: 130px;
+}
+.ab-num { font-family: var(--ff-disp); font-size: 44px; font-weight: 700; color: var(--white); }
+.ab-label { font-size: 9px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-top: 2px; line-height: 1.4; }
+
+.about-text .section-title { margin-bottom: 24px; }
+.about-p { font-size: 15px; font-weight: 300; line-height: 1.85; color: var(--gray-l); margin-bottom: 20px; }
+.about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 36px 0; }
+.af {
+  padding: 20px;
+  background: rgba(245,239,224,.03);
+  border: 1px solid rgba(245,239,224,.06);
+  border-left: 2px solid var(--crimson);
+}
+.af-title { font-family: var(--ff-disp); font-size: 17px; font-weight: 500; color: var(--cream); margin-bottom: 5px; }
+.af-text { font-size: 12px; font-weight: 300; color: var(--gray); line-height: 1.5; }
+
+/* ══════════════════════════════════════
+   MENU SECTION (Özel Menüler)
+══════════════════════════════════════ */
+#menus { padding: 120px 0; background: var(--black); }
+.menus-header { text-align: center; margin-bottom: 72px; }
+.menus-header .section-title { margin-bottom: 16px; }
+.menus-sub { font-size: 15px; font-weight: 300; color: var(--gray); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+.menu-tabs {
+  display: flex; justify-content: center; gap: 4px;
+  margin-bottom: 60px;
+  background: var(--dark2);
+  padding: 6px; max-width: fit-content; margin-left: auto; margin-right: auto;
+}
+.tab-btn {
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--gray);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: all .3s;
+}
+.tab-btn.active { background: var(--crimson); color: var(--white); }
+.tab-btn:hover:not(.active) { color: var(--cream); }
+
+.menu-panel { display: none; }
+.menu-panel.show { display: block; }
+
+.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+.menu-card {
+  background: var(--dark2);
+  position: relative; overflow: hidden;
+  transition: transform .4s var(--ease-smooth);
+  cursor: pointer;
+}
+.menu-card:hover { transform: translateY(-6px); z-index: 1; }
+.menu-card-img {
+  width: 100%; aspect-ratio: 4/3;
+  position: relative; overflow: hidden;
+}
+.menu-card-img-inner {
+  position: absolute; inset: 0;
+  transition: transform .6s ease;
+}
+.menu-card:hover .menu-card-img-inner { transform: scale(1.08); }
+.menu-card-badge {
+  position: absolute; top: 14px; right: 14px; z-index: 2;
+  background: var(--crimson);
+  padding: 5px 12px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--white);
+}
+.menu-card-body { padding: 24px 24px 28px; }
+.menu-card-name {
+  font-family: var(--ff-disp);
+  font-size: 22px; font-weight: 700;
+  color: var(--cream); margin-bottom: 8px;
+}
+.menu-card-desc {
+  font-size: 13px; font-weight: 300;
+  color: var(--gray); line-height: 1.65;
+  margin-bottom: 20px;
+}
+.menu-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(245,239,224,.06);
+}
+.menu-price {
+  font-family: var(--ff-disp);
+  font-size: 26px; font-weight: 700;
+  color: var(--gold);
+}
+.menu-price-unit { font-size: 13px; font-weight: 300; color: var(--gray); margin-left: 2px; }
+.menu-order-btn {
+  width: 38px; height: 38px;
+  background: var(--crimson);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-size: 20px;
+  transition: background .3s, transform .3s;
+  border-radius: 0;
+}
+.menu-card:hover .menu-order-btn { background: var(--crimson-l); transform: scale(1.1); }
+.menu-tags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.menu-tag {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 3px 9px;
+  background: rgba(196,30,58,.15);
+  color: var(--crimson);
+  border: 1px solid rgba(196,30,58,.2);
+}
+
+/* ══════════════════════════════════════
+   POPULAR DISHES (Fiyat Listesi tarzı)
+══════════════════════════════════════ */
+#popular { padding: 120px 0; background: var(--cream); }
+#popular .section-title { color: var(--black); }
+#popular .eyebrow { color: var(--crimson); }
+#popular .eyebrow::before, #popular .eyebrow::after { background: var(--crimson); }
+.popular-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: start; }
+.popular-header { margin-bottom: 48px; }
+.popular-header .section-title { margin-bottom: 16px; }
+.popular-intro { font-size: 15px; font-weight: 300; color: #555; line-height: 1.75; }
+.pop-visual {
+  background: var(--black);
+  aspect-ratio: 4/5;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.pop-visual-inner { width: 85%; height: 85%; position: relative; }
+
+.dishes-list { display: flex; flex-direction: column; }
+.dish-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  cursor: pointer;
+  transition: padding-left .3s;
+  position: relative;
+}
+.dish-row:hover { padding-left: 8px; }
+.dish-row::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--crimson);
+  transform: scaleY(0); transition: transform .3s;
+}
+.dish-row:hover::before { transform: scaleY(1); }
+.dish-rank {
+  font-family: var(--ff-disp);
+  font-size: 13px; font-style: italic;
+  color: var(--crimson); min-width: 28px;
+}
+.dish-icon {
+  width: 52px; height: 52px; flex-shrink: 0;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  background: rgba(196,30,58,.08);
+}
+.dish-info { flex: 1; }
+.dish-name { font-family: var(--ff-disp); font-size: 20px; font-weight: 700; color: var(--black); }
+.dish-detail { font-size: 12px; font-weight: 300; color: #777; margin-top: 3px; }
+.dish-dots {
+  flex: 1; height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(0,0,0,.2) 0px, rgba(0,0,0,.2) 3px, transparent 3px, transparent 8px);
+  margin: 0 12px; min-width: 20px;
+}
+.dish-price {
+  font-family: var(--ff-disp);
+  font-size: 22px; font-weight: 700;
+  color: var(--crimson); white-space: nowrap;
+}
+
+/* ══════════════════════════════════════
+   GALLERY
+══════════════════════════════════════ */
+#gallery { padding: 120px 0; background: var(--dark); }
+.gallery-header { text-align: center; margin-bottom: 60px; }
+.gallery-masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 260px);
+  gap: 10px;
+}
+.g-item {
+  position: relative; overflow: hidden; cursor: pointer;
+  background: var(--dark3);
+}
+.g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.g-item:nth-child(4) { grid-column: span 2; }
+.g-bg { position: absolute; inset: 0; transition: transform .6s ease; }
+.g-item:hover .g-bg { transform: scale(1.07); }
+.g-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 55%);
+  opacity: 0; transition: opacity .4s;
+  display: flex; align-items: flex-end; padding: 20px;
+}
+.g-item:hover .g-overlay { opacity: 1; }
+.g-label {
+  font-family: var(--ff-disp);
+  font-size: 18px; font-weight: 700;
+  color: var(--white);
+}
+.g-item:nth-child(1) .g-label { font-size: 26px; }
+
+/* Gallery BGs */
+.gbg1 { background: radial-gradient(ellipse at 40% 35%, #3D1A0A, #0D0505); }
+.gbg2 { background: radial-gradient(ellipse at 60% 40%, #2A1510, #100808); }
+.gbg3 { background: radial-gradient(ellipse at 45% 45%, #1A1005, #080500); }
+.gbg4 { background: radial-gradient(ellipse at 50% 40%, #2D1A0A, #120A05); }
+.gbg5 { background: radial-gradient(ellipse at 55% 35%, #1A0D08, #080405); }
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+#testimonials { padding: 120px 0; background: var(--black); }
+.t-header { text-align: center; margin-bottom: 72px; }
+.t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.t-card {
+  background: var(--dark2);
+  padding: 38px 34px;
+  border: 1px solid rgba(245,239,224,.05);
+  position: relative;
+  transition: border-color .4s, transform .4s;
+}
+.t-card:hover { border-color: rgba(196,30,58,.3); transform: translateY(-5px); }
+.t-card.featured { background: var(--crimson); border-color: var(--crimson); }
+.t-stars { color: var(--gold); font-size: 15px; margin-bottom: 18px; }
+.t-card.featured .t-stars { color: #FFE082; }
+.t-big-quote {
+  font-family: var(--ff-disp);
+  font-size: 80px; font-weight: 900;
+  line-height: .7; color: var(--crimson);
+  margin-bottom: 16px; opacity: .4;
+}
+.t-card.featured .t-big-quote { color: var(--white); opacity: .3; }
+.t-text {
+  font-family: var(--ff-disp);
+  font-size: 17px; font-style: italic; font-weight: 400;
+  color: rgba(245,239,224,.85); line-height: 1.65;
+  margin-bottom: 28px;
+}
+.t-card.featured .t-text { color: var(--white); }
+.t-author { display: flex; align-items: center; gap: 14px; }
+.t-avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(196,30,58,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-disp); font-size: 20px; font-weight: 700;
+  color: var(--cream); flex-shrink: 0;
+}
+.t-card.featured .t-avatar { background: rgba(255,255,255,.2); color: var(--white); }
+.t-name { font-size: 14px; font-weight: 600; color: var(--cream); }
+.t-card.featured .t-name { color: var(--white); }
+.t-visit { font-size: 11px; font-weight: 300; color: var(--gray); margin-top: 2px; }
+.t-card.featured .t-visit { color: rgba(255,255,255,.65); }
+
+/* Rating bar */
+.t-rating-bar {
+  display: flex; align-items: center; justify-content: center; gap: 28px;
+  margin-top: 64px;
+  padding: 40px;
+  background: var(--dark2);
+  border: 1px solid rgba(245,239,224,.05);
+}
+.trb-score { font-family: var(--ff-disp); font-size: 60px; font-weight: 900; color: var(--cream); line-height: 1; }
+.trb-divider { width: 1px; height: 60px; background: rgba(245,239,224,.1); }
+.trb-right { }
+.trb-stars { color: var(--gold); font-size: 20px; letter-spacing: 3px; }
+.trb-count { font-size: 12px; font-weight: 300; color: var(--gray); margin-top: 5px; }
+.trb-source { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--crimson); margin-top: 8px; }
+
+/* ══════════════════════════════════════
+   RESERVATION
+══════════════════════════════════════ */
+#reservation {
+  padding: 120px 0;
+  background: linear-gradient(145deg, var(--dark2) 0%, var(--dark) 100%);
+  position: relative; overflow: hidden;
+}
+#reservation::before {
+  content: '';
+  position: absolute; right: -100px; top: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(196,30,58,.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.res-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.res-info .section-title { margin-bottom: 20px; }
+.res-intro { font-size: 15px; font-weight: 300; color: var(--gray-l); line-height: 1.75; margin-bottom: 40px; }
+.res-hours { margin-bottom: 40px; }
+.rh-title {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--crimson); margin-bottom: 16px;
+}
+.rh-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(245,239,224,.06);
+  font-size: 14px; font-weight: 300;
+}
+.rh-row span:first-child { color: var(--gray-l); }
+.rh-row span:last-child { color: var(--cream); font-weight: 500; }
+.rh-row.today { background: rgba(196,30,58,.05); padding: 12px 10px; margin: 0 -10px; }
+.rh-row.today span:last-child { color: var(--crimson); }
+
+.res-form-wrap { }
+.res-form-title {
+  font-family: var(--ff-disp);
+  font-size: 30px; font-weight: 700;
+  color: var(--cream); margin-bottom: 32px;
+}
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.f-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.f-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gray);
+}
+.f-input, .f-select, .f-textarea {
+  width: 100%; padding: 14px 16px;
+  background: rgba(245,239,224,.04);
+  border: 1px solid rgba(245,239,224,.1);
+  color: var(--cream);
+  font-family: var(--ff-body); font-size: 14px; font-weight: 300;
+  outline: none;
+  transition: border-color .3s, background .3s;
+  -webkit-appearance: none;
+}
+.f-input::placeholder { color: var(--gray); }
+.f-input:focus, .f-select:focus, .f-textarea:focus {
+  border-color: var(--crimson);
+  background: rgba(196,30,58,.05);
+}
+.f-select { cursor: pointer; color: var(--gray-l); }
+.f-select option { background: var(--dark2); color: var(--cream); }
+.f-textarea { resize: vertical; min-height: 110px; }
+
+/* ══════════════════════════════════════
+   CONTACT & MAP
+══════════════════════════════════════ */
+#contact { padding: 120px 0; background: var(--black); }
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.contact-info .section-title { margin-bottom: 24px; }
+.c-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 40px; }
+.c-item { display: flex; gap: 16px; align-items: flex-start; }
+.c-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: rgba(196,30,58,.1);
+  border: 1px solid rgba(196,30,58,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.c-label { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--crimson); margin-bottom: 4px; }
+.c-value { font-size: 15px; font-weight: 400; color: var(--cream); }
+.social-row { display: flex; gap: 10px; }
+.social-btn {
+  width: 40px; height: 40px;
+  background: rgba(245,239,224,.05);
+  border: 1px solid rgba(245,239,224,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; cursor: pointer;
+  transition: all .3s;
+}
+.social-btn:hover { background: var(--crimson); border-color: var(--crimson); }
+
+.map-wrap {
+  background: var(--dark2);
+  border: 1px solid rgba(245,239,224,.06);
+  overflow: hidden;
+  position: relative;
+  min-height: 420px;
+  display: flex; flex-direction: column;
+}
+.map-placeholder {
+  flex: 1;
+  background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.map-grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,239,224,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,239,224,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.map-center {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.map-pin-icon {
+  width: 48px; height: 48px;
+  background: var(--crimson);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(196,30,58,.5);
+  animation: pinBounce 2s ease-in-out infinite;
+}
+.map-pin-icon::after {
+  content: '🍽';
+  transform: rotate(45deg);
+  font-size: 20px;
+}
+@keyframes pinBounce { 0%,100%{transform:rotate(-45deg) translateY(0)} 50%{transform:rotate(-45deg) translateY(-6px)} }
+.map-address-text {
+  background: var(--dark2);
+  padding: 12px 20px;
+  font-family: var(--ff-disp);
+  font-size: 15px; font-style: italic; font-weight: 400;
+  color: var(--cream-d);
+  border: 1px solid rgba(196,30,58,.2);
+}
+.map-footer {
+  padding: 16px 20px;
+  background: var(--crimson);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mf-text { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--white); }
+.mf-arrow { color: var(--white); font-size: 18px; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: #060606;
+  padding: 72px 0 0;
+}
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; padding-bottom: 60px;
+  border-bottom: 1px solid rgba(245,239,224,.06);
+}
+.footer-brand-name {
+  font-family: var(--ff-disp);
+  font-size: 28px; font-weight: 700; color: var(--cream); margin-bottom: 14px;
+}
+.footer-brand-name span { color: var(--crimson); }
+.footer-brand-desc { font-size: 13px; font-weight: 300; color: var(--gray); line-height: 1.7; margin-bottom: 28px; }
+.footer-socials { display: flex; gap: 10px; }
+.f-social {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(245,239,224,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; cursor: pointer;
+  transition: all .3s;
+}
+.f-social:hover { background: var(--crimson); border-color: var(--crimson); }
+.f-col-title {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--crimson); margin-bottom: 22px;
+}
+.f-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-links li a { font-size: 13px; font-weight: 300; color: var(--gray); transition: color .3s; }
+.f-links li a:hover { color: var(--cream); }
+.footer-bottom {
+  padding: 20px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; font-weight: 300; color: rgba(245,239,224,.25);
+}
+.footer-bottom a { color: var(--crimson); transition: opacity .3s; }
+.footer-bottom a:hover { opacity: .75; }
+
+/* ══════════════════════════════════════
+   WHATSAPP
+══════════════════════════════════════ */
+.wa-btn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 999;
+  display: flex; align-items: center; gap: 12px;
+  background: #25D366;
+  color: var(--white);
+  padding: 14px 22px 14px 18px;
+  border-radius: 50px;
+  box-shadow: 0 8px 32px rgba(37,211,102,.4);
+  cursor: pointer;
+  text-decoration: none;
+  animation: waPulse 3s ease-in-out infinite;
+  transition: transform .3s, box-shadow .3s;
+}
+.wa-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 14px 44px rgba(37,211,102,.55); animation: none; }
+.wa-icon-svg { width: 26px; height: 26px; flex-shrink: 0; }
+.wa-label { font-size: 13px; font-weight: 600; white-space: nowrap; }
+@keyframes waPulse {
+  0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,.4); }
+  50%      { box-shadow: 0 8px 52px rgba(37,211,102,.65); }
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 100px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--dark2);
+  border: 1px solid var(--crimson);
+  color: var(--cream);
+  padding: 14px 28px;
+  font-size: 14px; font-weight: 500;
+  opacity: 0; transition: all .4s;
+  z-index: 999; pointer-events: none; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-masonry { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+  .g-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .g-item:nth-child(4) { grid-column: span 1; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .hero-inner, .about-grid, .popular-layout, .res-layout, .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+  .hero-visual { display: none; }
+  .hero-content { padding: 140px 0 60px; }
+  .hero-badge-row { gap: 20px; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .gallery-masonry { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .g-item:nth-child(1) { grid-column: span 1; }
+  .g-item:nth-child(4) { grid-column: span 1; }
+  .t-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  .nav-links-list { display: none; }
+  .hamburger { display: flex; }
+  .f-row { grid-template-columns: 1fr; }
+  .about-facts { grid-template-columns: 1fr; }
+  .wa-label { display: none; }
+  .wa-btn { padding: 14px; border-radius: 50%; }
+  .menu-tabs { flex-wrap: wrap; max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .scroll-line, .marquee-inner, .hero-floating-card, .hero-floating-card2, .wa-btn, .map-pin-icon { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-wrap">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-main">Lezzet</span>
+        <span class="nav-logo-dot"></span>
+        <span class="nav-logo-main">Durağı</span>
+        <span class="nav-logo-sub">&nbsp;Est. 2008</span>
+      </a>
+      <ul class="nav-links-list">
+        <li><a href="#about">Hakkımızda</a></li>
+        <li><a href="#menus">Menü</a></li>
+        <li><a href="#popular">Lezzetler</a></li>
+        <li><a href="#gallery">Galeri</a></li>
+        <li><a href="#testimonials">Yorumlar</a></li>
+        <li><a href="#reservation" class="btn-crimson nav-res-btn"><span>Rezervasyon</span></a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" onclick="openMob()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <span class="mob-close" onclick="closeMob()">✕</span>
+  <a href="#about" onclick="closeMob()">Hakkımızda</a>
+  <a href="#menus" onclick="closeMob()">Menü</a>
+  <a href="#popular" onclick="closeMob()">Lezzetler</a>
+  <a href="#gallery" onclick="closeMob()">Galeri</a>
+  <a href="#testimonials" onclick="closeMob()">Yorumlar</a>
+  <a href="#reservation" onclick="closeMob()" class="btn-crimson" style="font-size:13px;padding:15px 34px"><span>Rezervasyon</span></a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles"></canvas>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-tag reveal">
+          <span class="hero-tag-dot"></span>
+          Şimdi Açık — Rezervasyon Alınıyor
+        </div>
+        <h1 class="hero-h1 reveal" style="transition-delay:.1s">
+          Gerçek<br>
+          <span class="accent">Lezzetin</span><br>
+          <span class="underline-draw">Durağı</span>
+        </h1>
+        <p class="hero-sub reveal" style="transition-delay:.2s">
+          2008'den bu yana Türk mutfağının en seçkin tatlarını modern bir dokunuşla sunuyoruz. Her tabak, bir hikâye; her lokmada tutulan bir söz.
+        </p>
+        <div class="hero-actions reveal" style="transition-delay:.3s">
+          <a href="#menus" class="btn-crimson"><span>Menüyü İncele</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#reservation" class="btn-outline-cream">Masa Rezervasyonu</a>
+        </div>
+        <div class="hero-badge-row reveal" style="transition-delay:.4s">
+          <div>
+            <div class="hero-badge-num">4.9<span>★</span></div>
+            <div class="hero-badge-label">Google Puanı</div>
+          </div>
+          <div>
+            <div class="hero-badge-num">8.000<span>+</span></div>
+            <div class="hero-badge-label">Mutlu Misafir</div>
+          </div>
+          <div>
+            <div class="hero-badge-num">16<span>+</span></div>
+            <div class="hero-badge-label">Yıllık Deneyim</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="hero-visual">
+        <div class="hero-plate-wrap">
+          <div class="hero-plate">
+            <!-- Plate SVG illustration -->
+            <svg class="hero-plate-svg" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Outer ring -->
+              <circle cx="180" cy="180" r="170" stroke="rgba(245,239,224,.06)" stroke-width="1"/>
+              <circle cx="180" cy="180" r="150" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+              <!-- Main dish base -->
+              <ellipse cx="180" cy="195" rx="110" ry="70" fill="rgba(60,25,10,.9)"/>
+              <ellipse cx="180" cy="193" rx="105" ry="65" fill="rgba(80,30,10,.8)"/>
+              <!-- Meat/kofte elements -->
+              <ellipse cx="155" cy="195" rx="32" ry="18" fill="#8B2500" rx="4"/>
+              <ellipse cx="205" cy="192" rx="28" ry="16" fill="#7A1E00"/>
+              <ellipse cx="180" cy="200" rx="25" ry="14" fill="#9B3000"/>
+              <!-- Grill marks -->
+              <line x1="143" y1="188" x2="167" y2="194" stroke="rgba(0,0,0,.6)" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="143" y1="194" x2="167" y2="200" stroke="rgba(0,0,0,.6)" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="143" y1="200" x2="167" y2="206" stroke="rgba(0,0,0,.5)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="193" y1="186" x2="218" y2="192" stroke="rgba(0,0,0,.55)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="193" y1="192" x2="218" y2="198" stroke="rgba(0,0,0,.55)" stroke-width="2" stroke-linecap="round"/>
+              <!-- Garnish greens -->
+              <ellipse cx="125" cy="200" rx="18" ry="9" fill="#1A4A0A" opacity=".9"/>
+              <ellipse cx="235" cy="197" rx="16" ry="8" fill="#1A4A0A" opacity=".85"/>
+              <!-- Tomato slices -->
+              <circle cx="130" cy="202" r="9" fill="#C41E2A" opacity=".9"/>
+              <circle cx="130" cy="202" r="6" fill="#E83045" opacity=".7"/>
+              <circle cx="235" cy="200" r="8" fill="#C41E2A" opacity=".85"/>
+              <!-- Onion rings -->
+              <ellipse cx="180" cy="215" rx="22" ry="8" fill="rgba(245,239,224,.15)" stroke="rgba(245,239,224,.2)" stroke-width="1"/>
+              <ellipse cx="180" cy="215" rx="15" ry="5" fill="none" stroke="rgba(245,239,224,.12)" stroke-width="1"/>
+              <!-- Sauce drizzle -->
+              <path d="M150 188 Q155 175 160 185" stroke="#D44020" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".7"/>
+              <path d="M200 183 Q210 170 215 183" stroke="#D44020" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
+              <!-- Steam lines -->
+              <path d="M155 170 Q158 155 155 140" stroke="rgba(245,239,224,.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M180 165 Q183 148 180 132" stroke="rgba(245,239,224,.12)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M205 168 Q208 152 205 136" stroke="rgba(245,239,224,.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Gold rim highlight -->
+              <circle cx="180" cy="180" r="168" stroke="rgba(212,160,23,.08)" stroke-width="2"/>
+            </svg>
+            <span class="hero-plate-label">Izgara Köfte — Şef'in Tercihi</span>
+          </div>
+          <div class="hero-floating-card">
+            <div class="fc-label">Bu Hafta En Çok</div>
+            <div class="fc-value">Adana Kebap</div>
+            <div class="fc-sub">★★★★★ · 148 sipariş</div>
+          </div>
+          <div class="hero-floating-card2">
+            <div class="fc2-num">%100</div>
+            <div class="fc2-text">Taze<br>Malzeme</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Aşağı Kaydır</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-inner" id="marq">
+    <span class="m-item"><span class="m-text">Izgara Köfte</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Adana Kebap</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Karışık Pizza</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Tavuk Fajita</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Cheeseburger</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Künefe</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Reservasyon: 0212 XXX XX XX</span><span class="m-sep">✦</span></span>
+    <!-- Duplicate for seamless loop -->
+    <span class="m-item"><span class="m-text">Izgara Köfte</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Adana Kebap</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Karışık Pizza</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Tavuk Fajita</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Cheeseburger</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Künefe</span><span class="m-sep">✦</span></span>
+    <span class="m-item"><span class="m-text">Reservasyon: 0212 XXX XX XX</span><span class="m-sep">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual-wrap reveal">
+        <div class="about-main-img">
+          <div class="about-main-img-inner">
+            <svg width="100%" height="100%" viewBox="0 0 400 500" fill="none">
+              <defs>
+                <radialGradient id="kitchenGrad" cx="40%" cy="35%">
+                  <stop offset="0%" stop-color="#3D1A0A"/>
+                  <stop offset="60%" stop-color="#1A0808"/>
+                  <stop offset="100%" stop-color="#0A0404"/>
+                </radialGradient>
+              </defs>
+              <rect width="400" height="500" fill="url(#kitchenGrad)"/>
+              <!-- Flame effects -->
+              <ellipse cx="200" cy="320" rx="60" ry="20" fill="rgba(196,30,58,.15)"/>
+              <path d="M160 320 Q175 280 200 300 Q185 255 210 270 Q195 240 220 260 Q205 225 200 200 Q230 240 215 270 Q240 250 225 280 Q245 285 230 310 Q210 295 240 320" fill="rgba(255,120,20,.25)" opacity=".6"/>
+              <path d="M180 320 Q190 290 200 305 Q192 270 205 285 Q196 255 200 240 Q215 265 208 280 Q222 268 215 290 Q228 295 220 315" fill="rgba(212,160,23,.2)" opacity=".5"/>
+              <!-- Pan/grill -->
+              <ellipse cx="200" cy="330" rx="80" ry="25" fill="#1A0A05" stroke="rgba(212,160,23,.2)" stroke-width="1"/>
+              <ellipse cx="200" cy="325" rx="70" ry="20" fill="#100605"/>
+              <!-- Meat on grill -->
+              <rect x="155" y="310" width="45" height="20" rx="6" fill="#7A2000" transform="rotate(-5,177,320)"/>
+              <rect x="198" y="308" width="45" height="20" rx="6" fill="#8B2500" transform="rotate(3,220,318)"/>
+              <!-- Grill marks on meat -->
+              <line x1="160" y1="313" x2="195" y2="317" stroke="rgba(0,0,0,.7)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="160" y1="319" x2="195" y2="323" stroke="rgba(0,0,0,.6)" stroke-width="2" stroke-linecap="round"/>
+              <!-- Chef coat silhouette -->
+              <rect x="130" y="60" width="140" height="200" rx="20" fill="rgba(245,239,224,.08)"/>
+              <ellipse cx="200" cy="55" rx="45" ry="50" fill="rgba(245,239,224,.1)"/>
+              <!-- Toque -->
+              <ellipse cx="200" cy="25" rx="40" ry="30" fill="rgba(245,239,224,.12)"/>
+              <rect x="165" y="22" width="70" height="12" fill="rgba(245,239,224,.1)"/>
+              <!-- Logo watermark -->
+              <text x="200" y="440" text-anchor="middle" font-family="Georgia,serif" font-size="60" font-weight="900" fill="rgba(196,30,58,.12)">LD</text>
+              <!-- Decorative spice scatter -->
+              <circle cx="80" cy="150" r="3" fill="rgba(196,30,58,.3)"/>
+              <circle cx="95" cy="165" r="2" fill="rgba(212,160,23,.3)"/>
+              <circle cx="310" cy="130" r="3" fill="rgba(196,30,58,.3)"/>
+              <circle cx="325" cy="148" r="2" fill="rgba(212,160,23,.25)"/>
+            </svg>
+          </div>
+          <div class="about-overlay">
+            <p class="about-overlay-quote">"Her lezzet, toprağa, emekçiye ve masaya bir sevgi mektubundan ibarettir."</p>
+          </div>
+        </div>
+        <div class="about-accent-box">
+          <div class="ab-num">16</div>
+          <div class="ab-label">Yıllık<br>Deneyim</div>
+        </div>
+      </div>
+
+      <div class="about-text reveal" style="transition-delay:.15s">
+        <div class="eyebrow">Hikâyemiz</div>
+        <h2 class="section-title">Ocaktan <em>Sofranıza</em></h2>
+        <div class="red-rule"></div>
+        <p class="about-p">Lezzet Durağı, 2008 yılında küçük bir aile mutfağından yola çıktı. Kurucumuz Şef Ahmet Koçak'ın "iyi yemek, iyi ateş ve iyi malzeme gerektirir" felsefesiyle şekillenen mutfağımız bugün yüzlerce misafiri ağırlamaktadır.</p>
+        <p class="about-p">Günlük taze alınan etler, kendi bahçemizden toplanan sebzeler ve kuşaktan kuşağa aktarılan tarifler; her tabağın özüdür. Sadece pişirmiyoruz — aktarıyoruz.</p>
+        <div class="about-facts">
+          <div class="af">
+            <div class="af-title">Taze Malzeme</div>
+            <div class="af-text">Her sabah yerel pazardan günlük alım yapılır</div>
+          </div>
+          <div class="af">
+            <div class="af-title">Açık Mutfak</div>
+            <div class="af-text">Pişirme sürecini misafirlerimiz takip edebilir</div>
+          </div>
+          <div class="af">
+            <div class="af-title">Sertifikalı Şef</div>
+            <div class="af-text">Uluslararası eğitim almış baş aşçı kadrosu</div>
+          </div>
+          <div class="af">
+            <div class="af-title">Özel Etkinlik</div>
+            <div class="af-text">Doğum günü ve kurumsal organizasyonlar için özel menü</div>
+          </div>
+        </div>
+        <a href="#reservation" class="btn-crimson"><span>Masa Rezervasyonu</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENUS -->
+<section id="menus">
+  <div class="container">
+    <div class="menus-header reveal">
+      <div class="eyebrow">Mutfağımız</div>
+      <h2 class="section-title">Özel <em>Menülerimiz</em></h2>
+      <p class="menus-sub">Her kategori, kendi içinde bir dünya. Izgara ustasından pizzacıya, tatlı ustasından burger şefine — hepsi aynı özenle hazırlanır.</p>
+    </div>
+
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" onclick="switchTab('kebap',this)">Kebap & Izgara</button>
+      <button class="tab-btn" onclick="switchTab('fast',this)">Fast Food</button>
+      <button class="tab-btn" onclick="switchTab('tatli',this)">Tatlılar</button>
+    </div>
+
+    <!-- KEBAP TAB -->
+    <div class="menu-panel show" id="tab-kebap">
+      <div class="menu-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 40% 35%,#5A1500,#1A0500)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <ellipse cx="150" cy="140" rx="100" ry="55" fill="#2A0A00" opacity=".9"/>
+                <rect x="90" y="118" width="55" height="24" rx="8" fill="#8B2800" transform="rotate(-8,117,130)"/>
+                <rect x="148" y="115" width="55" height="24" rx="8" fill="#7A2000" transform="rotate(4,175,127)"/>
+                <line x1="94" y1="121" x2="140" y2="128" stroke="rgba(0,0,0,.7)" stroke-width="2.5"/>
+                <line x1="94" y1="128" x2="140" y2="135" stroke="rgba(0,0,0,.6)" stroke-width="2"/>
+                <ellipse cx="90" cy="145" rx="14" ry="7" fill="#1A4A0A"/>
+                <circle cx="85" cy="147" r="7" fill="#C41E2A"/>
+                <ellipse cx="215" cy="143" rx="12" ry="6" fill="#1A4A0A"/>
+                <path d="M100 110 Q105 92 100 75" stroke="rgba(245,239,224,.2)" stroke-width="1.5" fill="none"/>
+                <path d="M150 105 Q155 87 150 70" stroke="rgba(245,239,224,.15)" stroke-width="1.5" fill="none"/>
+                <text x="150" y="195" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">IZGARA KÖFTEı</text>
+              </svg>
+            </div>
+            <div class="menu-card-badge">Şef Tercihi</div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Izgara</span><span class="menu-tag">Et</span></div>
+            <div class="menu-card-name">Izgara Köfte</div>
+            <p class="menu-card-desc">Dana ve kuzu kıymasının pul biber, kimyon ve taze maydanozla yoğrulup kor ateşte pişirildiği günün favorisi. Közlenmiş domates ve biberiyle servis edilir.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">185 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Izgara Köfte')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.1s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 45% 40%,#4A1000,#160400)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <ellipse cx="150" cy="145" rx="95" ry="50" fill="#200800" opacity=".9"/>
+                <!-- Skewers -->
+                <line x1="100" y1="160" x2="200" y2="115" stroke="rgba(180,120,50,.6)" stroke-width="3"/>
+                <line x1="120" y1="163" x2="220" y2="118" stroke="rgba(180,120,50,.5)" stroke-width="3"/>
+                <!-- Meat pieces -->
+                <rect x="108" y="125" width="20" height="14" rx="4" fill="#9B3000" transform="rotate(-25,118,132)"/>
+                <rect x="130" y="118" width="20" height="14" rx="4" fill="#8B2500" transform="rotate(-25,140,125)"/>
+                <rect x="152" y="111" width="20" height="14" rx="4" fill="#9B3000" transform="rotate(-25,162,118)"/>
+                <rect x="128" y="128" width="18" height="12" rx="4" fill="#7A2000" transform="rotate(-25,137,134)"/>
+                <rect x="150" y="121" width="18" height="12" rx="4" fill="#8B2000" transform="rotate(-25,159,127)"/>
+                <rect x="172" y="114" width="18" height="12" rx="4" fill="#7A2000" transform="rotate(-25,181,120)"/>
+                <!-- Garnish -->
+                <ellipse cx="100" cy="150" rx="16" ry="8" fill="#1A4A0A" opacity=".9"/>
+                <text x="150" y="195" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">ADANA KEBAP</text>
+              </svg>
+            </div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Acılı</span><span class="menu-tag">Şişte</span></div>
+            <div class="menu-card-name">Adana Kebap</div>
+            <p class="menu-card-desc">Adana usulü kıl kıyma, pul biber ve özel baharatlarla hazırlanan kebap. Şişte pişirilip lavaş ekmeği ve taze soğanla sunulur.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">195 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Adana Kebap')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.2s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 50% 40%,#3D1A00,#120800)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Tavuk Kanat -->
+                <ellipse cx="150" cy="148" rx="100" ry="52" fill="#1A0900"/>
+                <path d="M95 138 Q115 120 140 135 Q130 115 155 125 Q145 110 165 120 Q155 135 170 132 Q160 150 150 145 Q140 158 120 152 Q105 155 95 138Z" fill="#8B4000" opacity=".9"/>
+                <path d="M160 132 Q175 118 195 128 Q185 115 205 120 Q195 135 208 132 Q200 148 188 145 Q175 155 165 148 Q155 158 160 132Z" fill="#7A3500" opacity=".85"/>
+                <!-- Sauce -->
+                <path d="M105 140 Q120 135 140 138" stroke="#C41E2A" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+                <path d="M165 133 Q180 128 195 131" stroke="#C41E2A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".65"/>
+                <text x="150" y="195" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">TAVUK KANAT</text>
+              </svg>
+            </div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Tavuk</span><span class="menu-tag">Özel Sos</span></div>
+            <div class="menu-card-name">Çıtır Kanat</div>
+            <p class="menu-card-desc">12 saat marine edilmiş, kor ateşte pişirilen çıtır kanatlar. Acılı veya ballı BBQ soslu seçeneğiyle. Patates kızartması ile servis.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">145 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Çıtır Kanat')">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAST FOOD TAB -->
+    <div class="menu-panel" id="tab-fast">
+      <div class="menu-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 45% 35%,#4A2A00,#1A0D00)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Pizza -->
+                <circle cx="150" cy="130" r="80" fill="#C84820" opacity=".85"/>
+                <circle cx="150" cy="130" r="75" fill="#D45A2A" opacity=".8"/>
+                <circle cx="150" cy="130" r="68" fill="#E8703A" opacity=".6"/>
+                <!-- Cheese -->
+                <circle cx="150" cy="130" r="66" fill="rgba(255,220,80,.15)"/>
+                <!-- Toppings -->
+                <circle cx="135" cy="115" r="9" fill="#8B0A00"/>
+                <circle cx="160" cy="108" r="8" fill="#8B0A00"/>
+                <circle cx="175" cy="125" r="9" fill="#8B0A00"/>
+                <circle cx="145" cy="140" r="8" fill="#8B0A00"/>
+                <circle cx="168" cy="148" r="7" fill="#8B0A00"/>
+                <circle cx="125" cy="138" r="7" fill="#8B0A00"/>
+                <!-- Olives -->
+                <circle cx="152" cy="125" r="5" fill="#1A1A00" opacity=".8"/>
+                <circle cx="138" cy="145" r="4" fill="#1A1A00" opacity=".8"/>
+                <!-- Crust -->
+                <circle cx="150" cy="130" r="80" fill="none" stroke="#C87830" stroke-width="8" opacity=".5"/>
+                <text x="150" y="205" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">KARIŞIK PIZZA</text>
+              </svg>
+            </div>
+            <div class="menu-card-badge">Popüler</div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Pizza</span><span class="menu-tag">Karışık</span></div>
+            <div class="menu-card-name">Karışık Pizza</div>
+            <p class="menu-card-desc">İnce hamur üzerine özel domates sos, dana kavurma, tavuk, sucuk, mantar, mısır ve mozarella. Taş fırında 400°C'de pişirilir.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">175 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Karışık Pizza')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.1s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 50% 35%,#3A2000,#140C00)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Fajita wrap -->
+                <ellipse cx="150" cy="148" rx="105" ry="45" fill="#2A1500"/>
+                <path d="M80 148 Q150 110 220 148 Q200 165 150 168 Q100 165 80 148Z" fill="#C87830" opacity=".8"/>
+                <!-- Filling -->
+                <path d="M100 148 Q150 128 200 148" fill="#8B4020" opacity=".9"/>
+                <!-- Strips -->
+                <rect x="120" y="135" width="30" height="10" rx="3" fill="#7A3000" transform="rotate(-10,135,140)"/>
+                <rect x="148" y="130" width="28" height="9" rx="3" fill="#9B4A20" transform="rotate(5,162,134)"/>
+                <!-- Peppers -->
+                <rect x="132" y="138" width="12" height="6" rx="2" fill="#C41E2A" transform="rotate(-5,138,141)"/>
+                <rect x="158" y="135" width="10" height="6" rx="2" fill="#2A8B20" transform="rotate(8,163,138)"/>
+                <!-- Cheese strings -->
+                <path d="M115 148 Q130 143 145 148" stroke="rgba(255,220,80,.4)" stroke-width="1.5" fill="none"/>
+                <text x="150" y="200" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">TAVUK FAJİTA</text>
+              </svg>
+            </div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Wrap</span><span class="menu-tag">Tavuk</span></div>
+            <div class="menu-card-name">Tavuk Fajita</div>
+            <p class="menu-card-desc">Izgara tavuk şeritlerini biber, soğan, meksika baharatı ile kavurup tortilla içine sardık. Guacamole ve ekşi krema ile servis.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">155 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Tavuk Fajita')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.2s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 40% 40%,#3D2200,#120900)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Burger bun top -->
+                <ellipse cx="150" cy="100" rx="75" ry="42" fill="#C87830" opacity=".9"/>
+                <ellipse cx="150" cy="96" rx="72" ry="38" fill="#D48A40" opacity=".85"/>
+                <!-- Sesame seeds -->
+                <ellipse cx="130" cy="88" rx="5" ry="3" fill="rgba(245,239,224,.3)" transform="rotate(-15,130,88)"/>
+                <ellipse cx="155" cy="83" rx="5" ry="3" fill="rgba(245,239,224,.3)" transform="rotate(10,155,83)"/>
+                <ellipse cx="175" cy="90" rx="5" ry="3" fill="rgba(245,239,224,.3)" transform="rotate(-5,175,90)"/>
+                <!-- Lettuce -->
+                <path d="M75 130 Q110 118 150 122 Q190 118 225 130 Q200 138 150 140 Q100 138 75 130Z" fill="#2A6A10" opacity=".85"/>
+                <!-- Cheese -->
+                <path d="M78 130 Q110 122 150 126 Q190 122 222 130 Q200 135 150 137 Q100 135 78 130Z" fill="rgba(255,200,30,.7)"/>
+                <!-- Patty -->
+                <ellipse cx="150" cy="148" rx="78" ry="22" fill="#5A1500" opacity=".95"/>
+                <ellipse cx="150" cy="145" rx="75" ry="20" fill="#7A2000" opacity=".9"/>
+                <!-- Bottom bun -->
+                <ellipse cx="150" cy="162" rx="80" ry="18" fill="#B86820" opacity=".9"/>
+                <text x="150" y="202" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">CHEESEBURGER</text>
+              </svg>
+            </div>
+            <div class="menu-card-badge">En Çok Satan</div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Burger</span><span class="menu-tag">Dana</span></div>
+            <div class="menu-card-name">Cheeseburger</div>
+            <p class="menu-card-desc">180 gr dana köftesi, double cheddar, özel sos, karamelize soğan ve marul. Brioche ekmek içinde. Patates kızartması dahil.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">165 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Cheeseburger')">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TATLI TAB -->
+    <div class="menu-panel" id="tab-tatli">
+      <div class="menu-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 40% 40%,#4A2800,#1A0C00)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Künefe tray -->
+                <rect x="60" y="120" width="180" height="80" rx="6" fill="#1A0800"/>
+                <rect x="65" y="115" width="170" height="75" rx="4" fill="#C87020" opacity=".8"/>
+                <!-- Shredded wheat (kadayıf) top -->
+                <rect x="68" y="118" width="164" height="30" rx="3" fill="#D4A040" opacity=".7"/>
+                <!-- Thin lines for kadayıf texture -->
+                <line x1="75" y1="120" x2="75" y2="148" stroke="rgba(200,140,30,.8)" stroke-width="1"/>
+                <line x1="90" y1="120" x2="90" y2="148" stroke="rgba(200,140,30,.7)" stroke-width="1"/>
+                <line x1="105" y1="120" x2="105" y2="148" stroke="rgba(200,140,30,.75)" stroke-width="1"/>
+                <line x1="120" y1="120" x2="120" y2="148" stroke="rgba(200,140,30,.7)" stroke-width="1"/>
+                <line x1="135" y1="120" x2="135" y2="148" stroke="rgba(200,140,30,.8)" stroke-width="1"/>
+                <line x1="150" y1="120" x2="150" y2="148" stroke="rgba(200,140,30,.75)" stroke-width="1"/>
+                <line x1="165" y1="120" x2="165" y2="148" stroke="rgba(200,140,30,.7)" stroke-width="1"/>
+                <line x1="180" y1="120" x2="180" y2="148" stroke="rgba(200,140,30,.8)" stroke-width="1"/>
+                <line x1="195" y1="120" x2="195" y2="148" stroke="rgba(200,140,30,.7)" stroke-width="1"/>
+                <line x1="210" y1="120" x2="210" y2="148" stroke="rgba(200,140,30,.75)" stroke-width="1"/>
+                <line x1="225" y1="120" x2="225" y2="148" stroke="rgba(200,140,30,.7)" stroke-width="1"/>
+                <!-- Cheese/cream in middle -->
+                <rect x="70" y="146" width="160" height="22" fill="rgba(255,245,220,.15)"/>
+                <!-- Bottom kadayıf -->
+                <rect x="68" y="166" width="164" height="20" rx="3" fill="#C88A30" opacity=".7"/>
+                <!-- Syrup drizzle -->
+                <path d="M100 115 Q110 100 105 88" stroke="rgba(196,140,20,.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M150 113 Q158 98 153 85" stroke="rgba(196,140,20,.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- Pistachio garnish -->
+                <circle cx="110" cy="125" r="4" fill="#2A6A10" opacity=".9"/>
+                <circle cx="145" cy="122" r="4" fill="#2A6A10" opacity=".85"/>
+                <circle cx="180" cy="126" r="4" fill="#2A6A10" opacity=".9"/>
+                <circle cx="215" cy="123" r="3" fill="#2A6A10" opacity=".8"/>
+                <text x="150" y="205" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">KÜNEFEı</text>
+              </svg>
+            </div>
+            <div class="menu-card-badge">Ev Yapımı</div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Tatlı</span><span class="menu-tag">Sıcak</span></div>
+            <div class="menu-card-name">Künefe</div>
+            <p class="menu-card-desc">Kadayıf ve Hatay peynirinin buluşmasıyla ortaya çıkan bu lezzet, özel şerbetiyle köpürüyor. Fıstık ezmesi ve dondurmayla da tercih edilebilir.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">95 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Künefe')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.1s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 40% 40%,#3A1500,#100500)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Sütlaç bowl -->
+                <ellipse cx="150" cy="155" rx="95" ry="48" fill="#1A0800" opacity=".9"/>
+                <ellipse cx="150" cy="150" rx="88" ry="43" fill="#2A1200" opacity=".85"/>
+                <!-- Cream surface -->
+                <ellipse cx="150" cy="145" rx="83" ry="36" fill="rgba(255,245,220,.12)"/>
+                <ellipse cx="150" cy="143" rx="78" ry="32" fill="rgba(255,245,220,.08)"/>
+                <!-- Burned top pattern -->
+                <ellipse cx="150" cy="140" rx="55" ry="22" fill="rgba(180,80,20,.3)" opacity=".6"/>
+                <ellipse cx="150" cy="139" rx="40" ry="16" fill="rgba(196,60,10,.25)" opacity=".7"/>
+                <!-- Cinnamon pattern -->
+                <path d="M120 135 Q135 128 150 133 Q165 128 180 135" stroke="rgba(120,50,10,.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <text x="150" y="205" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">SÜTLAÇ</text>
+              </svg>
+            </div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Tatlı</span><span class="menu-tag">Fırında</span></div>
+            <div class="menu-card-name">Fırın Sütlaç</div>
+            <p class="menu-card-desc">Gerçek süt ve pirinçle yapılan, fırında üzeri hafifçe karamelize edilmiş Türk klasiği. Her gün taze olarak hazırlanır.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">65 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Fırın Sütlaç')">+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:.2s">
+          <div class="menu-card-img">
+            <div class="menu-card-img-inner" style="background:radial-gradient(ellipse at 40% 40%,#3A2800,#100C00)">
+              <svg width="100%" height="100%" viewBox="0 0 300 225" fill="none">
+                <!-- Baklava tray -->
+                <rect x="55" y="120" width="190" height="80" rx="4" fill="#1A1000"/>
+                <!-- Baklava pieces -->
+                <polygon points="100,125 145,125 135,155 90,155" fill="#C8A020" opacity=".85"/>
+                <polygon points="148,125 193,125 183,155 138,155" fill="#D4AA30" opacity=".8"/>
+                <polygon points="90,158 135,158 145,188 100,188" fill="#BF9018" opacity=".85"/>
+                <polygon points="138,158 183,158 193,188 148,188" fill="#C89A22" opacity=".8"/>
+                <!-- Syrup sheen -->
+                <polygon points="100,125 145,125 135,155 90,155" fill="rgba(255,220,50,.12)"/>
+                <polygon points="148,125 193,125 183,155 138,155" fill="rgba(255,220,50,.1)"/>
+                <!-- Diamond lines -->
+                <line x1="100" y1="125" x2="193" y2="125" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
+                <line x1="90" y1="155" x2="183" y2="155" stroke="rgba(0,0,0,.3)" stroke-width="1"/>
+                <line x1="100" y1="125" x2="90" y2="155" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
+                <line x1="145" y1="125" x2="135" y2="155" stroke="rgba(0,0,0,.4)" stroke-width="1"/>
+                <line x1="193" y1="125" x2="183" y2="155" stroke="rgba(0,0,0,.3)" stroke-width="1"/>
+                <!-- Pistachio crumble -->
+                <circle cx="117" cy="138" r="3" fill="#2A6A10" opacity=".9"/>
+                <circle cx="135" cy="133" r="3" fill="#2A6A10" opacity=".85"/>
+                <circle cx="165" cy="135" r="3" fill="#2A6A10" opacity=".9"/>
+                <circle cx="183" cy="140" r="3" fill="#2A6A10" opacity=".85"/>
+                <text x="150" y="210" text-anchor="middle" fill="rgba(212,160,23,.2)" font-size="11" font-family="serif" letter-spacing="2">BAKLAVA</text>
+              </svg>
+            </div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-tags"><span class="menu-tag">Tatlı</span><span class="menu-tag">Fıstıklı</span></div>
+            <div class="menu-card-name">Antep Baklavası</div>
+            <p class="menu-card-desc">Gaziantep usulü, 40 kat yufka ve taze Antep fıstığıyla hazırlanan baklava. Şerbeti sade veya limonlu seçilebilir.</p>
+            <div class="menu-card-footer">
+              <div class="menu-price">75 <span class="menu-price-unit">TL</span></div>
+              <div class="menu-order-btn" onclick="addToOrder('Antep Baklavası')">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POPULAR DISHES -->
+<section id="popular">
+  <div class="container">
+    <div class="popular-layout">
+      <div>
+        <div class="popular-header reveal">
+          <div class="eyebrow">En Beğenilenler</div>
+          <h2 class="section-title">Misafir <em>Favorileri</em></h2>
+          <div class="red-rule" style="background:var(--crimson)"></div>
+          <p class="popular-intro">Haftanın en çok sipariş verilen yemekleri — gerçek misafir verilerinden derlendi. Fiyatlar kişi başı olarak belirlenmiştir.</p>
+        </div>
+        <div class="dishes-list reveal" style="transition-delay:.1s">
+          <div class="dish-row">
+            <span class="dish-rank">I</span>
+            <div class="dish-icon">🥩</div>
+            <div class="dish-info">
+              <div class="dish-name">Izgara Köfte</div>
+              <div class="dish-detail">Dana & kuzu · Kor ateş</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">185 TL</div>
+          </div>
+          <div class="dish-row">
+            <span class="dish-rank">II</span>
+            <div class="dish-icon">🔥</div>
+            <div class="dish-info">
+              <div class="dish-name">Adana Kebap</div>
+              <div class="dish-detail">Kıl kıyma · Acılı</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">195 TL</div>
+          </div>
+          <div class="dish-row">
+            <span class="dish-rank">III</span>
+            <div class="dish-icon">🍕</div>
+            <div class="dish-info">
+              <div class="dish-name">Karışık Pizza</div>
+              <div class="dish-detail">Taş fırın · 32 cm</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">175 TL</div>
+          </div>
+          <div class="dish-row">
+            <span class="dish-rank">IV</span>
+            <div class="dish-icon">🌮</div>
+            <div class="dish-info">
+              <div class="dish-name">Tavuk Fajita</div>
+              <div class="dish-detail">Wrap · Guacamole</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">155 TL</div>
+          </div>
+          <div class="dish-row">
+            <span class="dish-rank">V</span>
+            <div class="dish-icon">🍔</div>
+            <div class="dish-info">
+              <div class="dish-name">Cheeseburger</div>
+              <div class="dish-detail">Dana · Double cheddar</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">165 TL</div>
+          </div>
+          <div class="dish-row">
+            <span class="dish-rank">VI</span>
+            <div class="dish-icon">🍮</div>
+            <div class="dish-info">
+              <div class="dish-name">Künefe</div>
+              <div class="dish-detail">Hatay peyniri · Fıstıklı</div>
+            </div>
+            <div class="dish-dots"></div>
+            <div class="dish-price">95 TL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:.2s">
+        <div class="pop-visual">
+          <div class="pop-visual-inner">
+            <svg width="100%" height="100%" viewBox="0 0 340 425" fill="none">
+              <defs>
+                <radialGradient id="popGrad" cx="40%" cy="35%">
+                  <stop offset="0%" stop-color="#3D1500"/>
+                  <stop offset="70%" stop-color="#140700"/>
+                  <stop offset="100%" stop-color="#080300"/>
+                </radialGradient>
+              </defs>
+              <rect width="340" height="425" fill="url(#popGrad)"/>
+              <!-- Large plate -->
+              <circle cx="170" cy="220" r="130" fill="#0D0600" stroke="rgba(245,239,224,.05)" stroke-width="1"/>
+              <circle cx="170" cy="220" r="118" fill="#120800"/>
+              <!-- Food arrangement (top view) -->
+              <!-- Main köfte pieces -->
+              <ellipse cx="155" cy="205" rx="38" ry="22" fill="#8B2800" transform="rotate(-15,155,205)"/>
+              <ellipse cx="190" cy="198" rx="35" ry="20" fill="#9B3500" transform="rotate(8,190,198)"/>
+              <!-- Grill marks -->
+              <line x1="135" y1="198" x2="168" y2="205" stroke="rgba(0,0,0,.7)" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="135" y1="205" x2="168" y2="212" stroke="rgba(0,0,0,.65)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="174" y1="191" x2="205" y2="197" stroke="rgba(0,0,0,.65)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="174" y1="198" x2="205" y2="204" stroke="rgba(0,0,0,.6)" stroke-width="2" stroke-linecap="round"/>
+              <!-- Tomato roasted -->
+              <circle cx="128" cy="225" r="18" fill="#C41E2A" opacity=".85"/>
+              <circle cx="128" cy="225" r="12" fill="#E82A38" opacity=".7"/>
+              <circle cx="120" cy="218" r="4" fill="rgba(255,180,170,.3)"/>
+              <!-- Pepper roasted -->
+              <path d="M218 215 Q235 200 245 220 Q240 240 225 235 Q210 230 218 215Z" fill="#C41E2A" opacity=".7"/>
+              <path d="M222 218 Q233 207 240 220 Q236 232 226 228Z" fill="#E82A40" opacity=".5"/>
+              <!-- Green onion -->
+              <path d="M140 240 Q155 232 170 245 Q185 232 200 242" stroke="#2A6A10" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>
+              <!-- Bread (pide) -->
+              <ellipse cx="170" cy="258" rx="55" ry="18" fill="#C87830" opacity=".7"/>
+              <path d="M120 258 Q145 252 170 255 Q195 252 220 258" stroke="rgba(245,239,224,.2)" stroke-width="1.5" fill="none"/>
+              <!-- Sauce -->
+              <path d="M145 200 Q152 193 158 200" stroke="#C41E2A" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
+              <!-- Parsley -->
+              <circle cx="172" cy="188" r="4" fill="#2A6A10" opacity=".8"/>
+              <circle cx="182" cy="185" r="3" fill="#2A6A10" opacity=".7"/>
+              <!-- Steam -->
+              <path d="M150 180 Q153 165 150 150" stroke="rgba(245,239,224,.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M170 176 Q173 160 170 144" stroke="rgba(245,239,224,.08)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Plate inner ring -->
+              <circle cx="170" cy="220" r="115" fill="none" stroke="rgba(245,239,224,.03)" stroke-width="1"/>
+              <!-- Gold label -->
+              <rect x="85" y="360" width="170" height="40" fill="rgba(196,30,58,.15)" rx="2"/>
+              <text x="170" y="378" text-anchor="middle" fill="rgba(212,160,23,.7)" font-size="9" font-family="serif" letter-spacing="3" font-weight="700">LEZZET DURAĞI</text>
+              <text x="170" y="392" text-anchor="middle" fill="rgba(245,239,224,.35)" font-size="8" font-family="serif" letter-spacing="2">EST. 2008</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="gallery-header reveal">
+      <div class="eyebrow">Galeri</div>
+      <h2 class="section-title">Lezzet <em>Anları</em></h2>
+    </div>
+    <div class="gallery-masonry reveal" style="transition-delay:.1s">
+      <div class="g-item">
+        <div class="g-bg gbg1">
+          <svg width="100%" height="100%" viewBox="0 0 400 520" fill="none">
+            <rect width="400" height="520" fill="url(#gg1)"/>
+            <defs><radialGradient id="gg1" cx="40%" cy="35%"><stop offset="0%" stop-color="#3D1500"/><stop offset="100%" stop-color="#0A0400"/></radialGradient></defs>
+            <text x="200" y="280" text-anchor="middle" font-family="Georgia,serif" font-size="90" font-weight="900" fill="rgba(196,30,58,.12)">LD</text>
+            <circle cx="200" cy="230" r="90" fill="none" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+            <ellipse cx="200" cy="255" rx="70" ry="45" fill="#2A1000" opacity=".9"/>
+            <ellipse cx="175" cy="248" rx="28" ry="17" fill="#8B2800" transform="rotate(-10,175,248)"/>
+            <ellipse cx="220" cy="244" rx="26" ry="15" fill="#7A2000" transform="rotate(5,220,244)"/>
+            <line x1="155" y1="240" x2="188" y2="247" stroke="rgba(0,0,0,.7)" stroke-width="2.5"/>
+            <line x1="155" y1="247" x2="188" y2="254" stroke="rgba(0,0,0,.65)" stroke-width="2"/>
+            <circle cx="165" cy="268" r="11" fill="#C41E2A" opacity=".85"/>
+            <ellipse cx="155" cy="260" rx="12" ry="6" fill="#1A4A0A" opacity=".9"/>
+          </svg>
+        </div>
+        <div class="g-overlay">
+          <div class="g-label">Izgara Köfte</div>
+        </div>
+      </div>
+
+      <div class="g-item">
+        <div class="g-bg gbg2">
+          <svg width="100%" height="100%" viewBox="0 0 300 260" fill="none">
+            <rect width="300" height="260" fill="url(#gg2)"/>
+            <defs><radialGradient id="gg2" cx="50%" cy="40%"><stop offset="0%" stop-color="#2A1500"/><stop offset="100%" stop-color="#0A0600"/></radialGradient></defs>
+            <circle cx="150" cy="130" r="72" fill="#0D0600" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+            <circle cx="150" cy="130" r="62" fill="#160A00"/>
+            <circle cx="150" cy="130" r="55" fill="rgba(200,112,40,.18)"/>
+            <circle cx="150" cy="130" r="48" fill="rgba(196,30,58,.12)"/>
+            <!-- Pizza toppings -->
+            <circle cx="135" cy="118" r="7" fill="#8B0A00" opacity=".9"/>
+            <circle cx="158" cy="110" r="6" fill="#8B0A00" opacity=".85"/>
+            <circle cx="170" cy="128" r="7" fill="#8B0A00" opacity=".9"/>
+            <circle cx="148" cy="142" r="6" fill="#8B0A00" opacity=".85"/>
+            <circle cx="162" cy="148" r="5" fill="#1A1A00" opacity=".8"/>
+            <circle cx="130" cy="136" r="5" fill="#1A1A00" opacity=".75"/>
+          </svg>
+        </div>
+        <div class="g-overlay"><div class="g-label">Karışık Pizza</div></div>
+      </div>
+
+      <div class="g-item">
+        <div class="g-bg gbg3">
+          <svg width="100%" height="100%" viewBox="0 0 300 260" fill="none">
+            <rect width="300" height="260" fill="url(#gg3)"/>
+            <defs><radialGradient id="gg3" cx="45%" cy="40%"><stop offset="0%" stop-color="#2A1800"/><stop offset="100%" stop-color="#080400"/></radialGradient></defs>
+            <!-- Coffee cup -->
+            <ellipse cx="150" cy="155" rx="60" ry="20" fill="#1A0C00" opacity=".9"/>
+            <rect x="95" y="130" width="110" height="50" rx="8" fill="#2A1200"/>
+            <ellipse cx="150" cy="130" rx="55" ry="18" fill="#3A1A00" opacity=".9"/>
+            <ellipse cx="150" cy="128" rx="48" ry="14" fill="#1A0800"/>
+            <!-- Coffee surface -->
+            <ellipse cx="150" cy="126" rx="42" ry="11" fill="#0A0400"/>
+            <!-- Foam art -->
+            <path d="M125 124 Q140 118 150 124 Q160 118 175 124" stroke="rgba(245,239,224,.2)" stroke-width="1.5" fill="none"/>
+            <circle cx="150" cy="121" r="6" fill="rgba(245,239,224,.08)"/>
+            <!-- Handle -->
+            <path d="M205 138 Q220 138 220 155 Q220 172 205 172" stroke="#2A1200" stroke-width="8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="g-overlay"><div class="g-label">Türk Kahvesi</div></div>
+      </div>
+
+      <div class="g-item">
+        <div class="g-bg gbg4">
+          <svg width="100%" height="100%" viewBox="0 0 600 260" fill="none">
+            <rect width="600" height="260" fill="url(#gg4)"/>
+            <defs><radialGradient id="gg4" cx="35%" cy="40%"><stop offset="0%" stop-color="#2A1000"/><stop offset="100%" stop-color="#0A0500"/></radialGradient></defs>
+            <!-- Table setting -->
+            <ellipse cx="300" cy="145" rx="180" ry="90" fill="#160A00" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+            <!-- Plates -->
+            <circle cx="220" cy="148" r="55" fill="#1A0C00" stroke="rgba(245,239,224,.06)" stroke-width="1"/>
+            <circle cx="380" cy="145" r="50" fill="#1A0C00" stroke="rgba(245,239,224,.06)" stroke-width="1"/>
+            <!-- Food on plates -->
+            <ellipse cx="220" cy="152" rx="32" ry="18" fill="#7A2000" opacity=".9"/>
+            <ellipse cx="380" cy="148" rx="28" ry="16" fill="#8B2800" opacity=".85"/>
+            <!-- Cutlery -->
+            <line x1="290" y1="110" x2="288" y2="185" stroke="rgba(245,239,224,.15)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="310" y1="112" x2="312" y2="187" stroke="rgba(245,239,224,.12)" stroke-width="2" stroke-linecap="round"/>
+            <!-- Candle -->
+            <rect x="295" y="80" width="10" height="30" fill="rgba(245,239,224,.2)"/>
+            <ellipse cx="300" cy="77" rx="6" ry="8" fill="#D4A017" opacity=".8"/>
+          </svg>
+        </div>
+        <div class="g-overlay"><div class="g-label">Restoran Atmosferi</div></div>
+      </div>
+
+      <div class="g-item">
+        <div class="g-bg gbg5">
+          <svg width="100%" height="100%" viewBox="0 0 300 260" fill="none">
+            <rect width="300" height="260" fill="url(#gg5)"/>
+            <defs><radialGradient id="gg5" cx="40%" cy="35%"><stop offset="0%" stop-color="#3A2000"/><stop offset="100%" stop-color="#0D0800"/></radialGradient></defs>
+            <!-- Baklava close-up -->
+            <rect x="50" y="80" width="200" height="100" rx="4" fill="#1A1000"/>
+            <polygon points="80,85 130,85 118,130 68,130" fill="#C8A020" opacity=".85"/>
+            <polygon points="133,85 183,85 171,130 121,130" fill="#D4AA30" opacity=".8"/>
+            <polygon points="68,133 118,133 130,178 80,178" fill="#BF9018" opacity=".85"/>
+            <polygon points="121,133 171,133 183,178 133,178" fill="#C89A22" opacity=".8"/>
+            <circle cx="100" cy="106" r="4" fill="#2A6A10" opacity=".9"/>
+            <circle cx="152" cy="100" r="4" fill="#2A6A10" opacity=".85"/>
+            <circle cx="100" cy="155" r="4" fill="#2A6A10" opacity=".9"/>
+            <circle cx="152" cy="150" r="4" fill="#2A6A10" opacity=".85"/>
+          </svg>
+        </div>
+        <div class="g-overlay"><div class="g-label">Antep Baklavası</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="t-header reveal">
+      <div class="eyebrow">Misafir Yorumları</div>
+      <h2 class="section-title">Onlar <em>Anlatsın</em></h2>
+    </div>
+    <div class="t-grid">
+      <div class="t-card reveal">
+        <div class="t-big-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">Adana kebabı yediğim en iyi kebap. Kor ateşin verdiği o duman tadı başka. Servisi de çok hızlı, saygılı. Kesinlikle tekrar geleceğim.</p>
+        <div class="t-author">
+          <div class="t-avatar">M</div>
+          <div>
+            <div class="t-name">Mehmet Demir</div>
+            <div class="t-visit">Google · 3 hafta önce</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card featured reveal" style="transition-delay:.1s">
+        <div class="t-big-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">Doğum günümü burada kutladık. Masa önceden özel süslenmiş geldi, pasta ücret almadan ikram edildi. Personel gerçekten işini seviyor — bu fark edilir.</p>
+        <div class="t-author">
+          <div class="t-avatar">E</div>
+          <div>
+            <div class="t-name">Elif Şahin</div>
+            <div class="t-visit">Instagram · 1 ay önce</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card reveal" style="transition-delay:.2s">
+        <div class="t-big-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">Karışık pizza ve künefe kombinasyonu mükemmeldi. Akşam rezervasyon yapmadan geldik, yer bulundu, hızlı servis. Fiyat-kalite dengesi çok yerinde.</p>
+        <div class="t-author">
+          <div class="t-avatar">A</div>
+          <div>
+            <div class="t-name">Ahmet Yıldız</div>
+            <div class="t-visit">TripAdvisor · 2 hafta önce</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-rating-bar reveal" style="transition-delay:.15s">
+      <div class="trb-score">4.9</div>
+      <div class="trb-divider"></div>
+      <div class="trb-right">
+        <div class="trb-stars">★★★★★</div>
+        <div class="trb-count">1.200+ misafir yorumu</div>
+        <div class="trb-source">Google · TripAdvisor · Yemeksepeti</div>
+      </div>
+      <div class="trb-divider"></div>
+      <div>
+        <div style="font-family:var(--ff-disp);font-size:38px;font-weight:700;color:var(--cream)">8K<span style="color:var(--crimson)">+</span></div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-top:4px">Mutlu Misafir</div>
+      </div>
+      <div class="trb-divider"></div>
+      <div>
+        <div style="font-family:var(--ff-disp);font-size:38px;font-weight:700;color:var(--cream)">16<span style="color:var(--crimson)">+</span></div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-top:4px">Yıllık Deneyim</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <div class="container">
+    <div class="res-layout">
+      <div class="res-info reveal">
+        <div class="eyebrow">Rezervasyon</div>
+        <h2 class="section-title">Masanızı <em>Ayırtın</em></h2>
+        <div class="red-rule"></div>
+        <p class="res-intro">Özel günler, iş yemekleri ya da aile buluşmaları için masanızı önceden ayırın. Rezervasyon, telefon ve WhatsApp üzerinden de alınmaktadır.</p>
+        <div class="res-hours">
+          <div class="rh-title">Çalışma Saatleri</div>
+          <div class="rh-row"><span>Pazartesi – Perşembe</span><span>11:00 – 23:00</span></div>
+          <div class="rh-row today"><span>Cuma</span><span>11:00 – 00:00</span></div>
+          <div class="rh-row today"><span>Cumartesi</span><span>11:00 – 01:00</span></div>
+          <div class="rh-row"><span>Pazar</span><span>12:00 – 22:00</span></div>
+        </div>
+        <a href="https://wa.me/905001234567?text=Merhaba%2C%20masa%20rezervasyonu%20yapmak%20istiyorum." target="_blank" class="btn-crimson">
+          <span>WhatsApp ile Rezervasyon</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.107 1.523 5.828L0 24l6.337-1.496A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.37l-.36-.214-3.727.88.928-3.638-.236-.374A9.782 9.782 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        </a>
+      </div>
+
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="res-form-title">Online Rezervasyon Formu</div>
+        <div class="f-row">
+          <div class="f-group">
+            <label class="f-label">Ad Soyad</label>
+            <input type="text" class="f-input" placeholder="Adınız Soyadınız">
+          </div>
+          <div class="f-group">
+            <label class="f-label">Telefon</label>
+            <input type="tel" class="f-input" placeholder="05XX XXX XX XX">
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-group">
+            <label class="f-label">Tarih</label>
+            <input type="date" class="f-input" style="color-scheme:dark">
+          </div>
+          <div class="f-group">
+            <label class="f-label">Saat</label>
+            <select class="f-select">
+              <option value="">Saat Seçin</option>
+              <option>12:00</option><option>13:00</option><option>14:00</option>
+              <option>18:00</option><option>19:00</option><option>20:00</option>
+              <option>21:00</option><option>22:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-group">
+            <label class="f-label">Kişi Sayısı</label>
+            <select class="f-select">
+              <option value="">Kişi Sayısı</option>
+              <option>1-2 kişi</option><option>3-4 kişi</option>
+              <option>5-6 kişi</option><option>7-10 kişi</option>
+              <option>10+ kişi (Özel Organizasyon)</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Özel Durum</label>
+            <select class="f-select">
+              <option value="">Standart Rezervasyon</option>
+              <option>Doğum Günü</option>
+              <option>Evlilik Yıl Dönümü</option>
+              <option>İş Yemeği</option>
+              <option>Nişan / Özel Kutlama</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-group">
+          <label class="f-label">Notunuz</label>
+          <textarea class="f-textarea" placeholder="Özel istek, alerji bilgisi veya notunuzu yazın..."></textarea>
+        </div>
+        <button class="btn-crimson" onclick="submitRes(this)" style="width:100%;justify-content:center;padding:18px">
+          <span>Rezervasyon Talebi Gönder</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+        <p style="font-size:12px;color:var(--gray);margin-top:12px;text-align:center">En geç 1 saat içinde onay SMS'i gönderilir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:64px" class="reveal">
+      <div class="eyebrow">İletişim</div>
+      <h2 class="section-title">Bize <em>Ulaşın</em></h2>
+    </div>
+    <div class="contact-layout">
+      <div class="reveal">
+        <div class="c-items">
+          <div class="c-item">
+            <div class="c-icon">📍</div>
+            <div>
+              <div class="c-label">Adres</div>
+              <div class="c-value">Bağcılar Mah. Lezzet Sok. No:8/A<br>Kadıköy / İstanbul</div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-icon">📞</div>
+            <div>
+              <div class="c-label">Telefon</div>
+              <div class="c-value">+90 212 XXX XX XX</div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-icon">💬</div>
+            <div>
+              <div class="c-label">WhatsApp</div>
+              <div class="c-value">+90 500 123 45 67</div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-icon">✉️</div>
+            <div>
+              <div class="c-label">E-Posta</div>
+              <div class="c-value">info@lezzetduragi.com.tr</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom:28px">
+          <div class="rh-title" style="font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);margin-bottom:14px">Sosyal Medya</div>
+          <div class="social-row">
+            <div class="social-btn">📸</div>
+            <div class="social-btn">🎵</div>
+            <div class="social-btn">🐦</div>
+            <div class="social-btn">📘</div>
+          </div>
+        </div>
+        <a href="https://wa.me/905001234567" target="_blank" class="btn-crimson">
+          <span>WhatsApp Sipariş</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.107 1.523 5.828L0 24l6.337-1.496A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+        </a>
+      </div>
+
+      <!-- MAP -->
+      <div class="map-wrap reveal" style="transition-delay:.15s">
+        <div class="map-placeholder">
+          <div class="map-grid-lines"></div>
+          <!-- Stylized street map illustration -->
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.25" viewBox="0 0 500 380" fill="none" preserveAspectRatio="xMidYMid slice">
+            <!-- Streets -->
+            <line x1="0" y1="120" x2="500" y2="120" stroke="rgba(245,239,224,.3)" stroke-width="12"/>
+            <line x1="0" y1="240" x2="500" y2="240" stroke="rgba(245,239,224,.2)" stroke-width="8"/>
+            <line x1="150" y1="0" x2="150" y2="380" stroke="rgba(245,239,224,.2)" stroke-width="8"/>
+            <line x1="320" y1="0" x2="320" y2="380" stroke="rgba(245,239,224,.15)" stroke-width="6"/>
+            <!-- Blocks -->
+            <rect x="160" y="130" width="150" height="100" fill="rgba(245,239,224,.04)" stroke="rgba(245,239,224,.06)" stroke-width="1"/>
+            <rect x="330" y="130" width="160" height="100" fill="rgba(245,239,224,.03)" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+            <rect x="160" y="250" width="150" height="120" fill="rgba(245,239,224,.03)" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+            <rect x="0" y="130" width="140" height="100" fill="rgba(245,239,224,.03)" stroke="rgba(245,239,224,.04)" stroke-width="1"/>
+          </svg>
+          <div class="map-center">
+            <div class="map-pin-icon"></div>
+            <div class="map-address-text">Kadıköy, İstanbul</div>
+          </div>
+        </div>
+        <div class="map-footer">
+          <span class="mf-text">Google Maps'te Aç</span>
+          <span class="mf-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name"><span>Lezzet</span> Durağı</div>
+        <p class="footer-brand-desc">2008'den bu yana İstanbul'un kalbinde, en seçkin Türk ve dünya mutfağını sizlerle buluşturuyoruz.</p>
+        <div class="footer-socials">
+          <div class="f-social">📸</div>
+          <div class="f-social">🎵</div>
+          <div class="f-social">🐦</div>
+          <div class="f-social">📘</div>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Menü</div>
+        <ul class="f-links">
+          <li><a href="#menus">Kebap & Izgara</a></li>
+          <li><a href="#menus">Fast Food</a></li>
+          <li><a href="#menus">Tatlılar</a></li>
+          <li><a href="#popular">Günün Önerileri</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">Restoran</div>
+        <ul class="f-links">
+          <li><a href="#about">Hakkımızda</a></li>
+          <li><a href="#gallery">Galeri</a></li>
+          <li><a href="#testimonials">Yorumlar</a></li>
+          <li><a href="#reservation">Rezervasyon</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">İletişim</div>
+        <ul class="f-links">
+          <li><a href="tel:+902121234567">+90 212 XXX XX XX</a></li>
+          <li><a href="https://wa.me/905001234567">WhatsApp: 0500 123 45 67</a></li>
+          <li><a href="mailto:info@lezzetduragi.com.tr">info@lezzetduragi.com.tr</a></li>
+          <li><a href="#">Kadıköy / İstanbul</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Lezzet Durağı. Tüm hakları saklıdır.</span>
+      <span><a href="#">Gizlilik Politikası</a> · <a href="#">KVKK</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a class="wa-btn" href="https://wa.me/905001234567?text=Merhaba%2C%20sipariş%20vermek%20istiyorum." target="_blank">
+  <svg class="wa-icon-svg" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.107 1.523 5.828L0 24l6.337-1.496A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.37l-.36-.214-3.727.88.928-3.638-.236-.374A9.782 9.782 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/>
+  </svg>
+  <span class="wa-label">WhatsApp Sipariş</span>
+</a>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Navbar ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 60));
+
+/* ── Mobile Nav ── */
+function openMob() { document.getElementById('mobNav').classList.add('show'); document.body.style.overflow='hidden'; }
+function closeMob() { document.getElementById('mobNav').classList.remove('show'); document.body.style.overflow=''; }
+
+/* ── Scroll Reveal ── */
+const revEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.10 });
+revEls.forEach(r => ro.observe(r));
+
+/* ── Tab Switcher ── */
+function switchTab(id, btn) {
+  document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('show');
+  btn.classList.add('active');
+  // Re-trigger reveal for newly shown cards
+  document.querySelectorAll('#tab-' + id + ' .reveal').forEach(r => {
+    r.classList.remove('in');
+    setTimeout(() => r.classList.add('in'), 80);
+  });
+}
+
+/* ── Add to Order Toast ── */
+function addToOrder(name) {
+  const t = document.getElementById('toast');
+  t.textContent = '✓ ' + name + ' siparişe eklendi';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ── Reservation Submit ── */
+function submitRes(btn) {
+  const s = btn.querySelector('span');
+  s.textContent = '✓ Talebiniz Alındı!';
+  btn.style.background = '#6B0A1A';
+  setTimeout(() => { s.textContent = 'Rezervasyon Talebi Gönder'; btn.style.background = ''; }, 3000);
+}
+
+/* ── Particle Canvas ── */
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (let i = 0; i < 40; i++) {
+    pts.push({
+      x: Math.random() * 1000,
+      y: Math.random() * 800,
+      vx: (Math.random() - .5) * .4,
+      vy: -(Math.random() * .5 + .2),
+      r: Math.random() * 1.8 + .4,
+      life: Math.random(),
+      maxLife: Math.random() * .6 + .4,
+      color: Math.random() > .5 ? '#C41E3A' : '#D4A017'
+    });
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life += .004;
+      if (p.life > p.maxLife || p.y < 0) {
+        p.x = Math.random() * W;
+        p.y = H + 10;
+        p.life = 0;
+        p.maxLife = Math.random() * .6 + .4;
+      }
+      const alpha = Math.sin((p.life / p.maxLife) * Math.PI) * .45;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

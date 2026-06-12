@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Güzellik Merkezi – Premium Beauty & Aesthetics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --white:    #FFFFFF;
+    --blush:    #F9EEF3;
+    --rose:     #EAC0D3;
+    --rose-d:   #C98BAD;
+    --gold:     #C9972A;
+    --gold-l:   #E8C87A;
+    --gold-d:   #9B6E10;
+    --ink:      #1A1108;
+    --ink-soft: #5A4A3A;
+    --gray-l:   #F4EEE8;
+    --ff-disp:  'Cormorant Garamond', Georgia, serif;
+    --ff-body:  'Jost', sans-serif;
+    --ease:     cubic-bezier(.22,.68,0,1.2);
+    --trans:    .45s var(--ease);
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--ff-body);
+    color: var(--ink);
+    background: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── UTILITY ── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+  .tag {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .btn-gold {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 34px;
+    background: var(--gold);
+    color: var(--white);
+    font-family: var(--ff-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    transition: background .3s, transform .3s;
+  }
+  .btn-gold:hover { background: var(--gold-d); transform: translateY(-2px); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--gold);
+    border: 1.5px solid var(--gold);
+    font-family: var(--ff-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+  /* ── FADE-IN ANIMATION ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ═══════════════════════════════════════════
+     NAVBAR
+  ═══════════════════════════════════════════ */
+  #navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 0;
+    transition: background .4s, padding .4s, box-shadow .4s;
+  }
+  #navbar.scrolled {
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px);
+    padding: 14px 0;
+    box-shadow: 0 2px 24px rgba(0,0,0,.07);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .nav-logo-icon {
+    width: 44px; height: 44px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-disp);
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--gold);
+  }
+  .nav-logo-text {
+    font-family: var(--ff-disp);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: .06em;
+  }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-links {
+    display: flex; align-items: center; gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transition: transform .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta { font-size: 12px !important; padding: 11px 24px !important; }
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--ink);
+    transition: all .3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0; z-index: 99;
+    background: var(--white);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 36px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--ff-disp);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: .06em;
+    transition: color .3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close {
+    position: absolute; top: 24px; right: 32px;
+    font-size: 28px; cursor: pointer; color: var(--ink-soft);
+    transition: color .3s;
+  }
+  .mobile-close:hover { color: var(--gold); }
+
+  /* ═══════════════════════════════════════════
+     HERO
+  ═══════════════════════════════════════════ */
+  #hero {
+    min-height: 100svh;
+    background: linear-gradient(150deg, #FDF5F8 0%, #F9EEF3 40%, #F4E8EF 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 90px;
+  }
+  /* Botanical SVG decoration */
+  #hero::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,151,42,.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-content { padding: 80px 0 80px 0; position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow-line {
+    width: 48px; height: 1px; background: var(--gold);
+  }
+  .hero-eyebrow-text {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .hero-title {
+    font-family: var(--ff-disp);
+    font-size: clamp(48px, 6vw, 78px);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    max-width: 440px;
+    margin-bottom: 44px;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rose);
+  }
+  .hero-stat-num {
+    font-family: var(--ff-disp);
+    font-size: 36px; font-weight: 300;
+    color: var(--gold);
+  }
+  .hero-stat-label {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* Hero visual side */
+  .hero-visual {
+    position: relative;
+    height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 0 80px 60px;
+  }
+  .hero-img-wrap {
+    position: relative;
+    width: 420px; max-width: 90%;
+  }
+  .hero-img-main {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    background: linear-gradient(135deg, #EAC0D3 0%, #C98BAD 60%, #8B5C7A 100%);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* SVG face silhouette placeholder */
+  .hero-img-main svg { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+  .hero-img-badge {
+    position: absolute;
+    bottom: -20px; left: -28px;
+    width: 120px; height: 120px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(201,151,42,.35);
+  }
+  .hero-img-badge-num {
+    font-family: var(--ff-disp);
+    font-size: 28px; font-weight: 300;
+    color: var(--white); line-height: 1;
+  }
+  .hero-img-badge-text {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    text-align: center;
+    margin-top: 3px;
+  }
+  .hero-img-card {
+    position: absolute;
+    top: 40px; right: -36px;
+    background: var(--white);
+    padding: 16px 20px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.10);
+    min-width: 160px;
+  }
+  .hero-card-stars { color: var(--gold); font-size: 13px; margin-bottom: 6px; }
+  .hero-card-text {
+    font-family: var(--ff-disp);
+    font-size: 14px; font-style: italic;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .hero-card-author {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+  /* Decorative dot grid */
+  .hero-dots {
+    position: absolute;
+    bottom: 60px; right: 0;
+    width: 100px; height: 100px;
+    background-image: radial-gradient(circle, var(--gold) 1px, transparent 1px);
+    background-size: 12px 12px;
+    opacity: .25;
+  }
+  /* Floating gold line */
+  .hero-line {
+    position: absolute;
+    top: 50%; left: 0;
+    width: 1px; height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    transform: translateY(-50%);
+    opacity: .3;
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--ink-soft); opacity: .6;
+  }
+  .scroll-dot {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollDot 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollDot { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ═══════════════════════════════════════════
+     DIVIDER ORNAMENT
+  ═══════════════════════════════════════════ */
+  .ornament-divider {
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    padding: 24px 0;
+  }
+  .ornament-divider span {
+    display: block;
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--rose-d));
+  }
+  .ornament-divider span:last-child {
+    background: linear-gradient(to left, transparent, var(--rose-d));
+  }
+  .ornament-divider-icon { color: var(--gold); font-size: 18px; }
+
+  /* ═══════════════════════════════════════════
+     SERVICES
+  ═══════════════════════════════════════════ */
+  #services { padding: 110px 0; background: var(--white); }
+  .section-header { text-align: center; margin-bottom: 70px; }
+  .section-title {
+    font-family: var(--ff-disp);
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .section-sub {
+    font-size: 15px; font-weight: 300;
+    color: var(--ink-soft);
+    max-width: 480px; margin: 0 auto;
+    line-height: 1.7;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .service-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--blush);
+    transition: transform .4s var(--ease);
+  }
+  .service-card:hover { transform: translateY(-6px); z-index: 1; }
+  .service-card-inner {
+    padding: 52px 40px 48px;
+    height: 100%;
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(201,151,42,.12);
+    transition: border-color .4s;
+  }
+  .service-card:hover .service-card-inner { border-color: var(--gold); }
+  .service-icon {
+    width: 52px; height: 52px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    transition: background .3s, color .3s;
+  }
+  .service-card:hover .service-icon {
+    background: var(--gold);
+    color: var(--white);
+  }
+  .service-icon svg { width: 22px; height: 22px; stroke: var(--gold); transition: stroke .3s; }
+  .service-card:hover .service-icon svg { stroke: var(--white); }
+  .service-name {
+    font-family: var(--ff-disp);
+    font-size: 26px; font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 16px;
+    transition: color .3s;
+  }
+  .service-card:hover .service-name { color: var(--gold-d); }
+  .service-desc {
+    font-size: 14px; font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    flex: 1;
+    margin-bottom: 28px;
+  }
+  .service-link {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gold);
+    display: flex; align-items: center; gap: 8px;
+    transition: gap .3s;
+  }
+  .service-card:hover .service-link { gap: 14px; }
+  /* Last two cards span */
+  .services-grid .service-card:nth-child(4) { grid-column: span 1; }
+
+  /* ═══════════════════════════════════════════
+     ABOUT
+  ═══════════════════════════════════════════ */
+  #about {
+    padding: 110px 0;
+    background: linear-gradient(160deg, var(--blush) 0%, #F2E4EC 100%);
+  }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual { position: relative; }
+  .about-img-main {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #D4A0BF 0%, #9B6080 60%, #6B3558 100%);
+    position: relative; overflow: hidden;
+  }
+  .about-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(107,53,88,.7) 0%, transparent 60%);
+    display: flex; align-items: flex-end; padding: 32px;
+  }
+  .about-img-quote {
+    font-family: var(--ff-disp);
+    font-size: 20px; font-style: italic; font-weight: 300;
+    color: var(--white); line-height: 1.5;
+  }
+  .about-award {
+    position: absolute;
+    top: -20px; right: -20px;
+    background: var(--white);
+    padding: 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.10);
+    text-align: center;
+    min-width: 140px;
+  }
+  .about-award-year {
+    font-family: var(--ff-disp);
+    font-size: 38px; font-weight: 300; color: var(--gold);
+  }
+  .about-award-label {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-soft); margin-top: 4px;
+    line-height: 1.4;
+  }
+  .about-content { }
+  .about-body {
+    font-size: 15px; font-weight: 300;
+    line-height: 1.85; color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .about-values {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin: 40px 0;
+  }
+  .about-value {
+    padding: 22px;
+    background: var(--white);
+    border-left: 2px solid var(--gold);
+  }
+  .about-value-title {
+    font-family: var(--ff-disp);
+    font-size: 18px; font-weight: 400;
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .about-value-text {
+    font-size: 13px; font-weight: 300;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+  .about-signature {
+    font-family: var(--ff-disp);
+    font-size: 36px; font-style: italic; font-weight: 300;
+    color: var(--gold); margin-top: 36px;
+  }
+  .about-signature-label {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-soft); margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════════════
+     BEFORE / AFTER GALLERY
+  ═══════════════════════════════════════════ */
+  #gallery { padding: 110px 0; background: var(--white); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 60px;
+  }
+  .gallery-item {
+    position: relative; overflow: hidden; cursor: pointer;
+    background: var(--blush);
+  }
+  .gallery-item:first-child { grid-row: span 2; }
+  .gallery-ba {
+    display: grid; grid-template-columns: 1fr 1fr;
+    width: 100%; height: 100%;
+    min-height: 240px;
+  }
+  .gallery-side {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .gallery-side-bg {
+    position: absolute; inset: 0;
+    transition: transform .6s ease;
+  }
+  .gallery-item:hover .gallery-side-bg { transform: scale(1.05); }
+  .gallery-side-bg.before {
+    background: linear-gradient(to bottom right, #C4A59B 0%, #8B6B5F 100%);
+  }
+  .gallery-side-bg.after {
+    background: linear-gradient(to bottom right, #E8B4C8 0%, #B07898 100%);
+  }
+  .gallery-side-label {
+    position: relative; z-index: 1;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--white);
+    padding: 12px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,.5), transparent);
+    width: 100%;
+  }
+  .gallery-divider {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%; width: 2px;
+    background: var(--white);
+    z-index: 2;
+  }
+  .gallery-divider::after {
+    content: '↔';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px; height: 28px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    color: var(--gold);
+  }
+  .gallery-meta {
+    padding: 18px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-l);
+  }
+  .gallery-service-tag {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .gallery-title {
+    font-family: var(--ff-disp);
+    font-size: 18px; font-weight: 400; color: var(--ink);
+  }
+
+  /* ═══════════════════════════════════════════
+     TESTIMONIALS
+  ═══════════════════════════════════════════ */
+  #testimonials {
+    padding: 110px 0;
+    background: linear-gradient(160deg, #1A1108 0%, #2E1E0E 100%);
+    position: relative; overflow: hidden;
+  }
+  #testimonials::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201,151,42,.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  #testimonials .tag { color: var(--gold-l); }
+  #testimonials .section-title { color: var(--white); }
+  #testimonials .section-sub { color: rgba(255,255,255,.55); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .testimonial-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(201,151,42,.2);
+    padding: 40px 36px;
+    position: relative;
+    transition: border-color .4s, background .4s;
+  }
+  .testimonial-card:hover {
+    border-color: rgba(201,151,42,.5);
+    background: rgba(255,255,255,.08);
+  }
+  .testimonial-card.featured {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .testimonial-quote-icon {
+    font-family: var(--ff-disp);
+    font-size: 72px; font-weight: 300;
+    line-height: .7;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: .6;
+  }
+  .testimonial-card.featured .testimonial-quote-icon { color: var(--white); }
+  .testimonial-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+  .testimonial-card.featured .testimonial-stars { color: var(--white); }
+  .testimonial-text {
+    font-family: var(--ff-disp);
+    font-size: 18px; font-style: italic; font-weight: 300;
+    line-height: 1.65;
+    color: rgba(255,255,255,.88);
+    margin-bottom: 28px;
+  }
+  .testimonial-card.featured .testimonial-text { color: var(--white); }
+  .testimonial-author {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .testimonial-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--rose-d));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-disp);
+    font-size: 18px; font-weight: 400; color: var(--white);
+    flex-shrink: 0;
+  }
+  .testimonial-card.featured .testimonial-avatar {
+    background: rgba(255,255,255,.25);
+  }
+  .testimonial-name {
+    font-size: 13px; font-weight: 500;
+    color: var(--white);
+  }
+  .testimonial-service {
+    font-size: 11px; font-weight: 300;
+    color: rgba(255,255,255,.5);
+    margin-top: 2px;
+  }
+  .testimonial-card.featured .testimonial-service { color: rgba(255,255,255,.75); }
+
+  /* ═══════════════════════════════════════════
+     FAQ
+  ═══════════════════════════════════════════ */
+  #faq { padding: 110px 0; background: var(--gray-l); }
+  .faq-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .faq-sidebar .section-title { text-align: left; }
+  .faq-sidebar .tag { }
+  .faq-sidebar-text {
+    font-size: 15px; font-weight: 300;
+    color: var(--ink-soft); line-height: 1.75;
+    margin-bottom: 36px;
+  }
+  .faq-list { display: flex; flex-direction: column; gap: 2px; }
+  .faq-item {
+    background: var(--white);
+    border-left: 2px solid transparent;
+    transition: border-color .3s;
+    overflow: hidden;
+  }
+  .faq-item.open { border-left-color: var(--gold); }
+  .faq-question {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 22px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    text-align: left;
+    font-family: var(--ff-disp);
+    font-size: 18px; font-weight: 400; color: var(--ink);
+    transition: color .3s;
+  }
+  .faq-item.open .faq-question { color: var(--gold-d); }
+  .faq-toggle {
+    width: 24px; height: 24px; border: 1px solid var(--rose);
+    border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--gold);
+    transition: transform .3s, background .3s;
+  }
+  .faq-item.open .faq-toggle {
+    background: var(--gold); color: var(--white);
+    border-color: var(--gold);
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s ease, padding .4s ease;
+  }
+  .faq-item.open .faq-answer { max-height: 200px; }
+  .faq-answer-inner {
+    padding: 0 24px 22px;
+    font-size: 14px; font-weight: 300;
+    line-height: 1.75; color: var(--ink-soft);
+  }
+
+  /* ═══════════════════════════════════════════
+     CONTACT
+  ═══════════════════════════════════════════ */
+  #contact { padding: 110px 0; background: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .contact-info { }
+  .contact-info .tag { }
+  .contact-intro {
+    font-size: 15px; font-weight: 300;
+    color: var(--ink-soft); line-height: 1.75;
+    margin-bottom: 44px;
+  }
+  .contact-items { display: flex; flex-direction: column; gap: 24px; }
+  .contact-item {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .contact-item-icon {
+    width: 42px; height: 42px; border: 1px solid var(--rose);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: var(--gold);
+    font-size: 18px;
+  }
+  .contact-item-label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 4px;
+  }
+  .contact-item-value {
+    font-family: var(--ff-disp);
+    font-size: 18px; font-weight: 400; color: var(--ink);
+  }
+  .contact-hours { margin-top: 40px; }
+  .contact-hours-title {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .contact-hours-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-l);
+    font-size: 13px; font-weight: 300; color: var(--ink-soft);
+  }
+  .contact-hours-row span:last-child { color: var(--ink); font-weight: 400; }
+
+  /* Contact form */
+  .contact-form-wrap { }
+  .form-title {
+    font-family: var(--ff-disp);
+    font-size: 32px; font-weight: 300;
+    color: var(--ink); margin-bottom: 32px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .form-label {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 14px 16px;
+    background: var(--blush);
+    border: 1px solid transparent;
+    border-bottom: 1px solid var(--rose);
+    font-family: var(--ff-body); font-size: 14px;
+    color: var(--ink); outline: none;
+    transition: border-color .3s, background .3s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold);
+    background: var(--white);
+  }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-select { cursor: pointer; }
+
+  /* ═══════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════ */
+  footer {
+    background: var(--ink);
+    padding: 70px 0 0;
+    color: rgba(255,255,255,.6);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .footer-brand-name {
+    font-family: var(--ff-disp);
+    font-size: 28px; font-weight: 300;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-brand-desc {
+    font-size: 13px; font-weight: 300; line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .footer-social { display: flex; gap: 12px; }
+  .footer-social-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: rgba(255,255,255,.6);
+    transition: all .3s; cursor: pointer;
+  }
+  .footer-social-icon:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links li a {
+    font-size: 13px; font-weight: 300; color: rgba(255,255,255,.6);
+    transition: color .3s;
+  }
+  .footer-links li a:hover { color: var(--white); }
+  .footer-bottom {
+    padding: 20px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; font-weight: 300;
+  }
+  .footer-bottom-note { color: rgba(255,255,255,.3); }
+  .footer-bottom-note a { color: var(--gold); transition: opacity .3s; }
+  .footer-bottom-note a:hover { opacity: .8; }
+
+  /* ═══════════════════════════════════════════
+     WHATSAPP FLOATING BUTTON
+  ═══════════════════════════════════════════ */
+  .wa-float {
+    position: fixed;
+    bottom: 32px; right: 32px; z-index: 999;
+    display: flex; align-items: center; gap: 12px;
+    background: #25D366;
+    color: var(--white);
+    padding: 14px 22px 14px 18px;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(37,211,102,.4);
+    cursor: pointer;
+    transition: transform .3s, box-shadow .3s;
+    animation: waPulse 3s ease-in-out infinite;
+    text-decoration: none;
+  }
+  .wa-float:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(37,211,102,.5);
+    animation: none;
+  }
+  .wa-icon { width: 26px; height: 26px; flex-shrink: 0; }
+  .wa-text { font-size: 13px; font-weight: 500; white-space: nowrap; }
+  @keyframes waPulse {
+    0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,.4); }
+    50%      { box-shadow: 0 8px 48px rgba(37,211,102,.65); }
+  }
+
+  /* ═══════════════════════════════════════════
+     BANNER STRIP
+  ═══════════════════════════════════════════ */
+  .promo-strip {
+    background: var(--gold);
+    padding: 12px 0;
+    overflow: hidden;
+  }
+  .promo-strip-inner {
+    display: flex; gap: 60px; white-space: nowrap;
+    animation: marquee 28s linear infinite;
+  }
+  .promo-item {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--white); flex-shrink: 0;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .promo-dot { width: 4px; height: 4px; background: rgba(255,255,255,.6); border-radius: 50%; }
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-row: auto; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .hero-content { padding: 40px 0; }
+    .hero-stats { gap: 24px; }
+    .about-grid, .faq-layout, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-visual { order: -1; }
+    .services-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about-values { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .wa-text { display: none; }
+    .wa-float { padding: 14px; border-radius: 50%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .scroll-dot, .promo-strip-inner, .wa-float { animation: none !important; transition: none !important; }
+  }
+
+  /* Subtle inner face illustration for hero */
+  .face-illustration {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: center; align-items: flex-end;
+    height: 85%; overflow: hidden; opacity: .15;
+  }
+</style>
+</head>
+<body>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div class="promo-strip-inner" id="promoStrip">
+    <span class="promo-item"><span class="promo-dot"></span>Ücretsiz Cilt Analizi</span>
+    <span class="promo-item"><span class="promo-dot"></span>Lazer Epilasyonda %30 İndirim</span>
+    <span class="promo-item"><span class="promo-dot"></span>Kalıcı Makyaj Uzmanı Kadromuz</span>
+    <span class="promo-item"><span class="promo-dot"></span>Randevunuzu WhatsApp'tan Alın</span>
+    <span class="promo-item"><span class="promo-dot"></span>Ücretsiz Cilt Analizi</span>
+    <span class="promo-item"><span class="promo-dot"></span>Lazer Epilasyonda %30 İndirim</span>
+    <span class="promo-item"><span class="promo-dot"></span>Kalıcı Makyaj Uzmanı Kadromuz</span>
+    <span class="promo-item"><span class="promo-dot"></span>Randevunuzu WhatsApp'tan Alın</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">B</div>
+        <span class="nav-logo-text"><span>Bella</span> Güzellik</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Hizmetler</a></li>
+        <li><a href="#about">Hakkımızda</a></li>
+        <li><a href="#gallery">Galeri</a></li>
+        <li><a href="#testimonials">Yorumlar</a></li>
+        <li><a href="#faq">SSS</a></li>
+        <li><a href="#contact" class="btn-gold nav-cta">Randevu Al</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-close" onclick="toggleMenu()">✕</div>
+  <a href="#services" onclick="toggleMenu()">Hizmetler</a>
+  <a href="#about" onclick="toggleMenu()">Hakkımızda</a>
+  <a href="#gallery" onclick="toggleMenu()">Galeri</a>
+  <a href="#testimonials" onclick="toggleMenu()">Yorumlar</a>
+  <a href="#faq" onclick="toggleMenu()">SSS</a>
+  <a href="#contact" class="btn-gold" onclick="toggleMenu()" style="font-size:13px;padding:14px 32px;letter-spacing:.14em">Randevu Al</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container" style="display:contents">
+    <div class="hero-content" style="padding-left:max(32px, calc((100vw - 1160px)/2 + 32px)); padding-right:60px;">
+      <div class="hero-eyebrow reveal">
+        <span class="hero-eyebrow-line"></span>
+        <span class="hero-eyebrow-text">Premium Beauty & Aesthetics</span>
+      </div>
+      <h1 class="hero-title reveal" style="transition-delay:.1s">
+        Güzelliğinizi<br>
+        <em>Yeniden</em><br>
+        Keşfedin
+      </h1>
+      <p class="hero-subtitle reveal" style="transition-delay:.2s">
+        Bella Güzellik Merkezi'nde her uygulama, size özel tasarlanmış bir deneyimdir. En son teknoloji ve sertifikalı uzman kadromuzla doğal güzelliğinizi öne çıkarıyoruz.
+      </p>
+      <div class="hero-actions reveal" style="transition-delay:.3s">
+        <a href="#contact" class="btn-gold">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Randevu Al
+        </a>
+        <a href="#services" class="btn-outline">Hizmetleri Keşfet</a>
+      </div>
+      <div class="hero-stats reveal" style="transition-delay:.4s">
+        <div>
+          <div class="hero-stat-num">5.000+</div>
+          <div class="hero-stat-label">Mutlu Müşteri</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">12</div>
+          <div class="hero-stat-label">Yıllık Deneyim</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.9★</div>
+          <div class="hero-stat-label">Ortalama Puan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual side -->
+    <div class="hero-visual">
+      <div class="hero-img-wrap reveal" style="transition-delay:.2s">
+        <div class="hero-img-main">
+          <!-- Decorative SVG illustration -->
+          <svg width="320" height="460" viewBox="0 0 320 460" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%">
+            <defs>
+              <linearGradient id="faceGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#F4D5E7"/>
+                <stop offset="100%" stop-color="#C98BAD"/>
+              </linearGradient>
+              <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3D2414"/>
+                <stop offset="100%" stop-color="#1A0A05"/>
+              </linearGradient>
+            </defs>
+            <!-- Background -->
+            <rect width="320" height="460" fill="url(#faceGrad)" opacity=".4"/>
+            <!-- Body/neck -->
+            <ellipse cx="160" cy="530" rx="90" ry="130" fill="#E8B4C8" opacity=".6"/>
+            <rect x="120" y="370" width="80" height="100" rx="40" fill="#E8B4C8" opacity=".6"/>
+            <!-- Face shape -->
+            <ellipse cx="160" cy="230" rx="88" ry="105" fill="#F9EEF3" opacity=".9"/>
+            <!-- Hair -->
+            <ellipse cx="160" cy="165" rx="95" ry="85" fill="url(#hairGrad)" opacity=".88"/>
+            <path d="M72 195 Q60 260 68 330 Q80 280 88 230" fill="url(#hairGrad)" opacity=".88"/>
+            <path d="M248 195 Q260 260 252 330 Q240 280 232 230" fill="url(#hairGrad)" opacity=".88"/>
+            <!-- Eye left -->
+            <ellipse cx="130" cy="225" rx="16" ry="9" fill="#8B5C7A" opacity=".85"/>
+            <ellipse cx="130" cy="225" rx="8" ry="8" fill="#3D1A30" opacity=".9"/>
+            <ellipse cx="133" cy="222" rx="3" ry="3" fill="white" opacity=".9"/>
+            <!-- Eye right -->
+            <ellipse cx="190" cy="225" rx="16" ry="9" fill="#8B5C7A" opacity=".85"/>
+            <ellipse cx="190" cy="225" rx="8" ry="8" fill="#3D1A30" opacity=".9"/>
+            <ellipse cx="193" cy="222" rx="3" ry="3" fill="white" opacity=".9"/>
+            <!-- Eyebrows -->
+            <path d="M114 210 Q130 203 148 208" stroke="#3D1A30" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".8"/>
+            <path d="M172 208 Q190 203 206 210" stroke="#3D1A30" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".8"/>
+            <!-- Nose -->
+            <path d="M160 235 Q155 260 150 268 Q160 272 170 268 Q165 260 160 235" stroke="#C98BAD" stroke-width="1.5" fill="none" opacity=".5"/>
+            <!-- Lips -->
+            <path d="M140 290 Q150 284 160 288 Q170 284 180 290" stroke="#C9972A" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M138 290 Q150 300 160 302 Q170 300 182 290" stroke="#C9972A" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M140 290 Q160 293 180 290" stroke="#C9972A" stroke-width="1.5" fill="none"/>
+            <!-- Blush -->
+            <ellipse cx="116" cy="265" rx="20" ry="12" fill="#E8B4C8" opacity=".35"/>
+            <ellipse cx="204" cy="265" rx="20" ry="12" fill="#E8B4C8" opacity=".35"/>
+            <!-- Gold leaf decorations -->
+            <circle cx="72" cy="190" r="6" fill="var(--gold)" opacity=".5"/>
+            <circle cx="248" cy="190" r="6" fill="#C9972A" opacity=".5"/>
+            <line x1="72" y1="190" x2="60" y2="210" stroke="#C9972A" stroke-width="1" opacity=".4"/>
+            <line x1="248" y1="190" x2="260" y2="210" stroke="#C9972A" stroke-width="1" opacity=".4"/>
+            <!-- Botanical line -->
+            <path d="M30 380 Q50 350 40 320 Q50 310 60 325 Q70 310 80 300" stroke="#C9972A" stroke-width="1" fill="none" opacity=".3"/>
+            <ellipse cx="60" cy="340" rx="15" ry="8" fill="none" stroke="#C9972A" stroke-width="1" opacity=".25" transform="rotate(-30,60,340)"/>
+            <path d="M270 380 Q250 350 260 320 Q250 310 240 325 Q230 310 220 300" stroke="#C9972A" stroke-width="1" fill="none" opacity=".3"/>
+          </svg>
+        </div>
+        <div class="hero-img-badge">
+          <div class="hero-img-badge-num">12</div>
+          <div class="hero-img-badge-text">Yıllık<br>Deneyim</div>
+        </div>
+        <div class="hero-img-card">
+          <div class="hero-card-stars">★★★★★</div>
+          <div class="hero-card-text">"Harika sonuçlar, profesyonel ekip!"</div>
+          <div class="hero-card-author">— Selin K.</div>
+        </div>
+        <div class="hero-dots"></div>
+      </div>
+      <div class="hero-line"></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    <span>Keşfet</span>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Hizmetlerimiz</span>
+      <h2 class="section-title">Güzelliğinize <em style="font-style:italic;color:var(--gold)">Özel</em> Çözümler</h2>
+      <p class="section-sub">Her hizmetimiz, uzman ellerin titizliği ve en ileri teknoloji ile sunulmaktadır.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-card-inner">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+              <path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+              <path d="M7 18c0-2.76 2.24-5 5-5s5 2.24 5 5"/>
+            </svg>
+          </div>
+          <h3 class="service-name">Cilt Bakımı</h3>
+          <p class="service-desc">Kişiye özel cilt analizi ile cildinizin ihtiyacını belirliyor, medikal ve kozmetik uygulamalarla derin temizlik, nemlendirme ve gençleştirme sağlıyoruz.</p>
+          <span class="service-link">Detaylı İncele <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:.08s">
+        <div class="service-card-inner">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 class="service-name">Lazer Epilasyon</h3>
+          <p class="service-desc">Diode ve Alexandrite teknolojisi ile kalıcı tüy azaltma. Her ten tonuna uygun cihazlarımız ve deneyimli uzmanlarımızla ağrısız, etkili sonuçlar.</p>
+          <span class="service-link">Detaylı İncele <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:.16s">
+        <div class="service-card-inner">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="service-name">Kalıcı Makyaj</h3>
+          <p class="service-desc">Microblading ve dijital pigmentasyon teknikleriyle kaş, dudak ve göz hattı kalıcı makyajı. Doğal görünüm, uzun ömürlü renk, deneyimli sanatçılar.</p>
+          <span class="service-link">Detaylı İncele <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:.24s">
+        <div class="service-card-inner">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <h3 class="service-name">Kaş Tasarımı</h3>
+          <p class="service-desc">Yüz hatlarınıza ve altın oran ilkelerine göre tasarlanan kaş şekillendirme. Ipek iplik, balmumu veya lazer seçenekleriyle mükemmel kaş formu.</p>
+          <span class="service-link">Detaylı İncele <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:.32s">
+        <div class="service-card-inner">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/>
+              <path d="M16 3s1 1 1 3-1 3-1 3"/>
+            </svg>
+          </div>
+          <h3 class="service-name">Profesyonel Makyaj</h3>
+          <p class="service-desc">Gelin, özel gün, nişan ve fotoğraf çekimi için profesyonel makyaj. Premium markalar ve sanatçı kadromuzla sizi özel anınızda en güzel halinize kavuşturun.</p>
+          <span class="service-link">Detaylı İncele <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-img-main">
+          <svg width="100%" height="100%" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0">
+            <rect width="400" height="500" fill="url(#aboutGrad)"/>
+            <defs>
+              <linearGradient id="aboutGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#D4A0BF"/>
+                <stop offset="60%" stop-color="#9B6080"/>
+                <stop offset="100%" stop-color="#6B3558"/>
+              </linearGradient>
+            </defs>
+            <!-- Stylized beauty elements -->
+            <circle cx="200" cy="180" r="90" fill="rgba(249,238,243,.15)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <circle cx="200" cy="180" r="65" fill="rgba(249,238,243,.12)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+            <!-- Diamond shape -->
+            <polygon points="200,80 260,180 200,280 140,180" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <!-- Center monogram -->
+            <text x="200" y="200" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="80" font-weight="300" fill="rgba(255,255,255,.25)">B</text>
+            <!-- Decorative gold lines -->
+            <line x1="0" y1="400" x2="400" y2="400" stroke="rgba(201,151,42,.3)" stroke-width="1"/>
+            <path d="M60 350 Q80 320 100 340 Q120 360 140 330" stroke="rgba(201,151,42,.4)" stroke-width="1.5" fill="none"/>
+            <ellipse cx="100" cy="355" rx="20" ry="10" fill="none" stroke="rgba(201,151,42,.3)" stroke-width="1" transform="rotate(-20,100,355)"/>
+            <path d="M260 380 Q280 350 300 370 Q320 390 340 360" stroke="rgba(201,151,42,.4)" stroke-width="1.5" fill="none"/>
+          </svg>
+          <div class="about-img-overlay">
+            <p class="about-img-quote">"Güzellik, özgüven ile başlar."</p>
+          </div>
+        </div>
+        <div class="about-award">
+          <div class="about-award-year">2012</div>
+          <div class="about-award-label">Yılından<br>Bu Yana<br>Hizmetinizde</div>
+        </div>
+      </div>
+      <div class="about-content reveal" style="transition-delay:.15s">
+        <span class="tag">Hakkımızda</span>
+        <h2 class="section-title" style="text-align:left; margin-bottom:24px">Güzellik Bir<br><em style="font-style:italic;color:var(--gold)">Sanat</em> Biçimidir</h2>
+        <p class="about-body">Bella Güzellik Merkezi, 2012 yılında İstanbul'da kuruldu. Kurucumuz ve baş uzmanımız Bella Hanım'ın vizyonuyla şekillenen merkezimiz, güzelliği bir yaşam biçimi olarak benimsemektedir.</p>
+        <p class="about-body">Her müşterimizi eşsiz bir birey olarak görüyor; kişiye özel protokollerle doğal güzelliklerini ön plana çıkarıyoruz. Sertifikalı uzman kadromuz, yılda en az iki uluslararası eğitim alarak alanındaki son gelişmeleri takip etmektedir.</p>
+        <div class="about-values">
+          <div class="about-value">
+            <div class="about-value-title">Uzman Ekip</div>
+            <div class="about-value-text">Uluslararası sertifikalı 8 uzman estetisyen</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">Premium Ürünler</div>
+            <div class="about-value-text">Sadece Avrupa sertifikalı kozmetik markalar</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">Hijyen & Güvenlik</div>
+            <div class="about-value-text">ISO 9001 belgeli steril uygulama standartları</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">Kişisel Yaklaşım</div>
+            <div class="about-value-text">Her müşteriye özel bakım protokolü</div>
+          </div>
+        </div>
+        <div class="about-signature">Bella</div>
+        <div class="about-signature-label">Baş Uzman & Kurucu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Öncesi & Sonrası</span>
+      <h2 class="section-title">Gerçek Sonuçlar,<br><em style="font-style:italic;color:var(--gold)">Gerçek Müşteriler</em></h2>
+      <p class="section-sub">Her fotoğraf, gerçek müşterilerimizden alınan izinle paylaşılmaktadır. Filtre veya düzenleme kullanılmamıştır.</p>
+    </div>
+    <div class="gallery-grid">
+
+      <div class="gallery-item reveal">
+        <div class="gallery-ba" style="min-height:440px">
+          <div class="gallery-side">
+            <div class="gallery-side-bg before" style="background:linear-gradient(135deg,#C4A59B,#8B6B5F)"></div>
+            <div class="gallery-side-label">Önce</div>
+          </div>
+          <div class="gallery-side">
+            <div class="gallery-side-bg after" style="background:linear-gradient(135deg,#E8B4C8,#9B6080)"></div>
+            <div class="gallery-side-label">Sonra</div>
+          </div>
+          <div class="gallery-divider"></div>
+        </div>
+        <div class="gallery-meta">
+          <div class="gallery-service-tag">Kalıcı Makyaj</div>
+          <div class="gallery-title">Microblading Kaş Uygulaması</div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" style="transition-delay:.1s">
+        <div class="gallery-ba" style="min-height:210px">
+          <div class="gallery-side">
+            <div class="gallery-side-bg before" style="background:linear-gradient(135deg,#B8A49A,#7A6055)"></div>
+            <div class="gallery-side-label">Önce</div>
+          </div>
+          <div class="gallery-side">
+            <div class="gallery-side-bg after" style="background:linear-gradient(135deg,#F0C8D8,#C090A8)"></div>
+            <div class="gallery-side-label">Sonra</div>
+          </div>
+          <div class="gallery-divider"></div>
+        </div>
+        <div class="gallery-meta">
+          <div class="gallery-service-tag">Cilt Bakımı</div>
+          <div class="gallery-title">Dermapen + Serum Uygulaması</div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" style="transition-delay:.2s">
+        <div class="gallery-ba" style="min-height:210px">
+          <div class="gallery-side">
+            <div class="gallery-side-bg before" style="background:linear-gradient(135deg,#A89888,#6B5848)"></div>
+            <div class="gallery-side-label">Önce</div>
+          </div>
+          <div class="gallery-side">
+            <div class="gallery-side-bg after" style="background:linear-gradient(135deg,#DDB0C0,#A07888)"></div>
+            <div class="gallery-side-label">Sonra</div>
+          </div>
+          <div class="gallery-divider"></div>
+        </div>
+        <div class="gallery-meta">
+          <div class="gallery-service-tag">Kaş Tasarımı</div>
+          <div class="gallery-title">Altın Oran Kaş Şekillendirme</div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" style="transition-delay:.1s">
+        <div class="gallery-ba" style="min-height:210px">
+          <div class="gallery-side">
+            <div class="gallery-side-bg before" style="background:linear-gradient(135deg,#C0A8A0,#8A6858)"></div>
+            <div class="gallery-side-label">Önce</div>
+          </div>
+          <div class="gallery-side">
+            <div class="gallery-side-bg after" style="background:linear-gradient(135deg,#ECC0D4,#B888A0)"></div>
+            <div class="gallery-side-label">Sonra</div>
+          </div>
+          <div class="gallery-divider"></div>
+        </div>
+        <div class="gallery-meta">
+          <div class="gallery-service-tag">Lazer Epilasyon</div>
+          <div class="gallery-title">6 Seans Diode Lazer Sonucu</div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" style="transition-delay:.2s">
+        <div class="gallery-ba" style="min-height:210px">
+          <div class="gallery-side">
+            <div class="gallery-side-bg before" style="background:linear-gradient(135deg,#B8A898,#706050)"></div>
+            <div class="gallery-side-label">Önce</div>
+          </div>
+          <div class="gallery-side">
+            <div class="gallery-side-bg after" style="background:linear-gradient(135deg,#F4C8DC,#C090B0)"></div>
+            <div class="gallery-side-label">Sonra</div>
+          </div>
+          <div class="gallery-divider"></div>
+        </div>
+        <div class="gallery-meta">
+          <div class="gallery-service-tag">Profesyonel Makyaj</div>
+          <div class="gallery-title">Gelin Makyajı Uygulaması</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Müşteri Yorumları</span>
+      <h2 class="section-title" style="color:var(--white)">Onların <em style="font-style:italic;color:var(--gold-l)">Deneyimi,</em><br>Bizim Gururumuz</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.55)">Müşterilerimizin gerçek yorumları — Instagram, Google ve yüz yüze paylaşımlardan derlendi.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote-icon">"</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Microblading yaptırdım ve sonuç inanılmaz doğal çıktı. İki yıldır kaş çizmiyorum, her sabah hazır! Bella Hanım gerçekten sanatçı bir el.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Ayşe Kaya</div>
+            <div class="testimonial-service">Microblading Kaş</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card featured reveal" style="transition-delay:.1s">
+        <div class="testimonial-quote-icon">"</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">Düğününde benim de en iyi görünmemi istedim, gelin makyajım için Bella'yı seçtim. Fotoğraflara baktıkça gurur duyuyorum — saatler geçince bile makyaj yerinde kaldı!</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">Z</div>
+          <div>
+            <div class="testimonial-name">Zeynep Arslan</div>
+            <div class="testimonial-service">Gelin Makyajı</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal" style="transition-delay:.2s">
+        <div class="testimonial-quote-icon">"</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">6 seanslık lazer epilasyon tamamlandı ve sonuçtan son derece memnunum. Ekip son derece profesyonel, randevular dakik, ortam çok temiz.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div>
+            <div class="testimonial-name">Merve Doğan</div>
+            <div class="testimonial-service">Lazer Epilasyon</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:52px" class="reveal">
+      <p style="color:rgba(255,255,255,.4); font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:20px">Google · Instagram · Yüz Yüze Görüşmelerden</p>
+      <div style="display:flex; justify-content:center; gap:8px; align-items:center">
+        <span style="font-family:var(--ff-disp); font-size:48px; font-weight:300; color:var(--gold)">4.9</span>
+        <div>
+          <div style="color:var(--gold); font-size:22px; letter-spacing:2px">★★★★★</div>
+          <div style="font-size:11px; color:rgba(255,255,255,.4); letter-spacing:.14em; text-transform:uppercase; margin-top:4px">500+ Yorum</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-sidebar reveal">
+        <span class="tag">Sık Sorulan Sorular</span>
+        <h2 class="section-title" style="text-align:left; margin-bottom:24px">Merak<br><em style="font-style:italic;color:var(--gold)">Ettikleriniz</em></h2>
+        <p class="faq-sidebar-text">Hizmetlerimiz hakkında sıkça sorulan soruları derledik. Cevabını bulamazsanız WhatsApp veya telefon üzerinden bize ulaşın.</p>
+        <a href="https://wa.me/905001234567" class="btn-gold" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.107 1.523 5.828L0 24l6.337-1.496A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.37l-.36-.214-3.727.88.928-3.638-.236-.374A9.782 9.782 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+          WhatsApp'tan Sor
+        </a>
+      </div>
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="faq-list" id="faqList">
+
+          <div class="faq-item open">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Lazer epilasyon ağrılı mı?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Modern Diode lazer cihazlarımız soğutma sistemi sayesinde işlemi neredeyse ağrısız hale getirir. Hassas bölgelerde hafif bir karıncalanma hissedilebilir, ancak bu tamamen tolere edilebilir düzeydedir. İşlem öncesi anestezik krem de uygulanabilir.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Kalıcı makyaj ne kadar süre kalır?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Cilt tipine ve uygulanan bölgeye göre değişmekle birlikte ortalama 1–3 yıl kalıcılık sağlanır. Güneş maruziyeti ve cilt bakım ürünleri bu süreyi etkiler. Düzenli dokunma seansları ile renk tazelenebilir.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              İlk ziyarette ne yapılır?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">İlk randevunuzda ücretsiz cilt analizi ve uzman danışmanlığı yapılır. Cildinizin ve beklentilerinizin değerlendirilmesiyle kişiselleştirilmiş bir bakım protokolü hazırlanır. Acele bir uygulama yapılmaz.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Kaç seanste sonuç alınır?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Lazer epilasyonda ortalama 6–8 seans, cilt bakımı uygulamalarında 4–6 seans yeterlidir. Her seans arasında gerekli dinlenme süresi uygulanır. Sonuçlar 2. seanstan itibaren belirginleşmeye başlar.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Randevu nasıl alınır?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">WhatsApp, telefon veya web sitemizdeki form aracılığıyla randevu alabilirsiniz. WhatsApp üzerinden anlık cevap veriyoruz. Ayrıca Instagram DM üzerinden de ulaşabilirsiniz.</div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+              Kullandığınız ürünler güvenli mi?
+              <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">Tüm ürünlerimiz CE ve ISO belgeli, Avrupa Birliği kozmetik mevzuatına uygun markalardır. Pigmentlerimiz vegan ve hipoalerjeniktir. Her ürünün güvenlik verileri incelenebilir.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <span class="tag">İletişim</span>
+        <h2 class="section-title" style="text-align:left; margin-bottom:20px">Sizi<br><em style="font-style:italic;color:var(--gold)">Bekliyoruz</em></h2>
+        <p class="contact-intro">Ücretsiz cilt analizi ve danışmanlık için hemen randevu alın. Size en uygun vakti birlikte planlayalım.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Adres</div>
+              <div class="contact-item-value">Bağlarbaşı Mah. Güzellik Cad. No:12/B, Kadıköy / İstanbul</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Telefon</div>
+              <div class="contact-item-value">+90 500 123 45 67</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div>
+              <div class="contact-item-label">E-Posta</div>
+              <div class="contact-item-value">info@bellaguzellik.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📸</div>
+            <div>
+              <div class="contact-item-label">Instagram</div>
+              <div class="contact-item-value">@bella.guzellik</div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-hours">
+          <div class="contact-hours-title">Çalışma Saatleri</div>
+          <div class="contact-hours-row"><span>Pazartesi – Cuma</span><span>09:00 – 20:00</span></div>
+          <div class="contact-hours-row"><span>Cumartesi</span><span>09:00 – 19:00</span></div>
+          <div class="contact-hours-row"><span>Pazar</span><span>10:00 – 17:00</span></div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal" style="transition-delay:.15s">
+        <div class="form-title">Randevu Formu</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ad Soyad</label>
+            <input type="text" class="form-input" placeholder="Adınız Soyadınız">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon</label>
+            <input type="tel" class="form-input" placeholder="05XX XXX XX XX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-Posta</label>
+          <input type="email" class="form-input" placeholder="email@adresiniz.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">İlgilendiğiniz Hizmet</label>
+          <select class="form-select">
+            <option value="">Hizmet Seçiniz</option>
+            <option>Cilt Bakımı</option>
+            <option>Lazer Epilasyon</option>
+            <option>Kalıcı Makyaj</option>
+            <option>Kaş Tasarımı</option>
+            <option>Profesyonel Makyaj</option>
+            <option>Diğer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mesajınız</label>
+          <textarea class="form-textarea" placeholder="Bize mesajınızı yazabilirsiniz..."></textarea>
+        </div>
+        <button class="btn-gold" onclick="handleFormSubmit(event)" style="width:100%; justify-content:center; padding:18px;">
+          Randevu Talebi Gönder
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+        <p style="font-size:12px; color:var(--ink-soft); margin-top:12px; text-align:center">En geç 2 saat içinde geri dönüş yapılır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name"><span>Bella</span> Güzellik Merkezi</div>
+        <p class="footer-brand-desc">2012'den bu yana premium güzellik deneyimi sunuyoruz. Doğal güzelliğinizi keşfetmek için buradayız.</p>
+        <div class="footer-social">
+          <div class="footer-social-icon">📸</div>
+          <div class="footer-social-icon">💬</div>
+          <div class="footer-social-icon">🐦</div>
+          <div class="footer-social-icon">▶️</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Hizmetler</div>
+        <ul class="footer-links">
+          <li><a href="#services">Cilt Bakımı</a></li>
+          <li><a href="#services">Lazer Epilasyon</a></li>
+          <li><a href="#services">Kalıcı Makyaj</a></li>
+          <li><a href="#services">Kaş Tasarımı</a></li>
+          <li><a href="#services">Profesyonel Makyaj</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Kurumsal</div>
+        <ul class="footer-links">
+          <li><a href="#about">Hakkımızda</a></li>
+          <li><a href="#gallery">Galeri</a></li>
+          <li><a href="#testimonials">Yorumlar</a></li>
+          <li><a href="#faq">SSS</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">İletişim</div>
+        <ul class="footer-links">
+          <li><a href="tel:+905001234567">+90 500 123 45 67</a></li>
+          <li><a href="mailto:info@bellaguzellik.com">info@bellaguzellik.com</a></li>
+          <li><a href="#">Kadıköy / İstanbul</a></li>
+          <li><a href="https://wa.me/905001234567" target="_blank">WhatsApp Randevu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-bottom-note">© 2025 Bella Güzellik Merkezi. Tüm hakları saklıdır.</span>
+      <span class="footer-bottom-note">
+        <a href="#">Gizlilik Politikası</a> &nbsp;·&nbsp; <a href="#">KVKK</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a class="wa-float" href="https://wa.me/905001234567?text=Merhaba%2C%20randevu%20almak%20istiyorum." target="_blank">
+  <svg class="wa-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.555 4.107 1.523 5.828L0 24l6.337-1.496A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.37l-.36-.214-3.727.88.928-3.638-.236-.374A9.782 9.782 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/>
+  </svg>
+  <span class="wa-text">WhatsApp Randevu</span>
+</a>
+
+<!-- JS -->
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Mobile menu
+  function toggleMenu() {
+    const m = document.getElementById('mobileMenu');
+    m.classList.toggle('open');
+    document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Form submit demo
+  function handleFormSubmit(e) {
+    const btn = e.currentTarget;
+    btn.textContent = '✓ Talebiniz Alındı!';
+    btn.style.background = 'var(--gold-d)';
+    setTimeout(() => {
+      btn.innerHTML = 'Randevu Talebi Gönder <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Active nav link highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const scrollSpy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + entry.target.id ? 'var(--gold)' : '';
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => scrollSpy.observe(s));
+</script>
+</body>
+</html>
