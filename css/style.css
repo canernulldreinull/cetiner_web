@@ -52,14 +52,16 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
 }
 
 .nav-logo img{
-  width:48px;
-  height:48px;
+  width:60px;
+  height:60px;
   border-radius:50%;
   object-fit:cover;
 }
 
 .nav-logo span{
-  font-size:1.1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 .nav-logo { font-size: 1.3rem; }
 .nav-links { display: flex; gap: 30px; list-style: none; }
