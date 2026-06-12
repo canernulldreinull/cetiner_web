@@ -6,8 +6,17 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Çetiner Web API çalışıyor.");
+});
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
