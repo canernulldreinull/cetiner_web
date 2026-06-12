@@ -86,14 +86,19 @@ if (contactForm) {
 
       const result = await response.json();
 
+      if (!response.ok) {
+        formStatus.textContent = result.message || "Bir hata oluştu. Lütfen tekrar deneyin.";
+        return;
+      }
+
       if (result.success) {
         formStatus.textContent = "Talebiniz başarıyla gönderildi. En kısa sürede dönüş yapacağım.";
         contactForm.reset();
       } else {
-        formStatus.textContent = "Bir hata oluştu. Lütfen WhatsApp üzerinden iletişime geçin.";
+        formStatus.textContent = result.message || "Bir hata oluştu. Lütfen WhatsApp üzerinden iletişime geçin.";
       }
     } catch (error) {
-      formStatus.textContent = "Bağlantı hatası. Lütfen backend'in çalıştığından emin olun.";
+      formStatus.textContent = "Bağlantı hatası. Lütfen birkaç saniye sonra tekrar deneyin.";
     }
   });
 }
