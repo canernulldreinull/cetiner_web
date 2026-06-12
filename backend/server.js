@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 3,
+  max: 20,
   message: {
     success: false,
     message: "Çok fazla deneme yaptınız. Lütfen 15 dakika sonra tekrar deneyin."
