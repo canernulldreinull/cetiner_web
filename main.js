@@ -66,7 +66,7 @@ if (contactForm) {
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    formStatus.textContent = "Gönderiliyor...";
+    formStatus.textContent = "Talebiniz gönderiliyor, lütfen bekleyin...";
 
     const data = {
       name: document.getElementById("name").value,
@@ -92,9 +92,19 @@ if (contactForm) {
       }
 
       if (result.success) {
-        formStatus.textContent = "Talebiniz başarıyla gönderildi. En kısa sürede dönüş yapacağım.";
-        contactForm.reset();
-      } else {
+  const whatsappText = encodeURIComponent(
+    `Merhaba, web sitesi için form üzerinden talep gönderdim. Detayları WhatsApp üzerinden de paylaşmak istiyorum.`
+  );
+
+  formStatus.innerHTML = `
+    Talebiniz başarıyla gönderildi. En kısa sürede dönüş yapacağım.<br>
+    <a href="https://wa.me/905467129239?text=${whatsappText}" target="_blank" class="form-whatsapp-link">
+      WhatsApp üzerinden devam et
+    </a>
+  `;
+
+  contactForm.reset();
+} else {
         formStatus.textContent = result.message || "Bir hata oluştu. Lütfen WhatsApp üzerinden iletişime geçin.";
       }
     } catch (error) {

@@ -274,3 +274,14 @@ footer a:hover { text-decoration: underline; }
   font-size: .9rem;
   color: #94A3B8;
 }
+.form-whatsapp-link {
+  display: inline-flex;
+  margin-top: 12px;
+  color: #25D366;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.form-whatsapp-link:hover {
+  text-decoration: underline;
+}
