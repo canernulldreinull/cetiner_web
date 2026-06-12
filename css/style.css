@@ -42,7 +42,25 @@ nav {
   transition: padding .25s ease, background .25s ease;
 }
 nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
-.nav-logo, .footer-logo { color: var(--text); text-decoration: none; font-weight: 800; letter-spacing: -.5px; }
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:#fff;
+  font-weight:800;
+}
+
+.nav-logo img{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.nav-logo span{
+  font-size:1.1rem;
+}
 .nav-logo { font-size: 1.3rem; }
 .nav-links { display: flex; gap: 30px; list-style: none; }
 .nav-links a { color: var(--text-soft); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
