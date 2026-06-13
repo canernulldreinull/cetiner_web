@@ -364,3 +364,18 @@ footer a:hover { text-decoration: underline; }
     flex-direction: column !important;
   }
 }
+/* MOBİL DÜZENLEMELER */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.15rem !important;
+    line-height: 1.08 !important;
+    letter-spacing: -1.4px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .hero-sub {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    max-width: 100% !important;
+  }
+}
