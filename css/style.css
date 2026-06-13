@@ -306,109 +306,48 @@ footer a:hover { text-decoration: underline; }
   text-decoration: underline;
 }
 @media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
+  #hero {
+    min-height: auto !important;
+    padding: 120px 20px 70px !important;
   }
 
-  nav {
-    padding: 16px 22px;
-  }
-
-  .nav-logo img {
-    width: 42px;
-    height: 42px;
-  }
-
-  .nav-logo span {
-    font-size: 1rem;
-  }
-
-  .nav-links,
-  .nav-cta {
-    display: none;
-  }
-
-  .nav-hamburger {
-    display: flex;
-  }
-
-  .hero {
-    padding: 130px 20px 80px;
-    min-height: auto;
-  }
-
-  .hero h1,
   .hero-title {
-    font-size: clamp(2.4rem, 12vw, 4rem);
-    line-height: 1.05;
+    font-size: 2.45rem !important;
+    line-height: 1.08 !important;
+    letter-spacing: -1.2px !important;
   }
 
   .hero-sub {
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 92%;
-    margin-inline: auto;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    max-width: 100% !important;
   }
 
-  .hero-actions {
-    flex-direction: column;
-    gap: 14px;
+  .hero-btns {
+    flex-direction: column !important;
+    width: 100% !important;
   }
 
-  .hero-actions a {
-    width: 100%;
-    justify-content: center;
+  .hero-btns a {
+    width: 100% !important;
   }
 
-  .stats,
   .hero-stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-
-  section {
-    padding: 70px 20px;
-  }
-
-  .section-title {
-    font-size: clamp(2rem, 9vw, 3rem);
-    line-height: 1.1;
-  }
-
-  .section-sub {
-    font-size: 1rem;
-    line-height: 1.7;
+    gap: 20px !important;
   }
 
   .portfolio-grid,
-  .pricing-grid,
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .portfolio-card {
-    max-width: 100%;
+  .services-grid,
+  .packages-grid,
+  .why-grid {
+    grid-template-columns: 1fr !important;
   }
 
   .portfolio-thumb {
-    height: 220px;
+    height: 210px !important;
   }
 
   .contact-form {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .contact-items {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .contact-chip {
-    justify-content: center;
-  }
-
-  .footer {
-    text-align: center;
+    max-width: 100% !important;
   }
 }
