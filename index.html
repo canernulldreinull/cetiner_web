@@ -439,7 +439,17 @@
   <input type="hidden" name="access_key" value="36381370-5062-4b7c-8fee-c28854340662">
   <input type="hidden" name="subject" value="Çetiner Web - Yeni Teklif Talebi">
   <input type="text" id="name" name="Ad Soyad" maxlength="23" placeholder="Adınız Soyadınız" required>
-  <input type="tel" id="phone" name="Telefon" maxlength="18" placeholder="Telefon Numaranız" required>
+  <div class="phone-wrapper">
+  <span class="phone-prefix">+90</span>
+  <input
+    type="tel"
+    id="phone"
+    name="Telefon"
+    maxlength="13"
+    placeholder="545 777 77 77"
+    required
+  >
+</div>
   <input type="text" id="brand" name="Marka / İşletme" placeholder="Marka / İşletme Adı">
   <textarea id="message" name="Mesaj" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
 
