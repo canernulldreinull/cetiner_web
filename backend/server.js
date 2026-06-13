@@ -57,25 +57,28 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
       },
     });
 
-    await transporter.sendMail({
-      from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
-      to: process.env.MAIL_TO,
-      subject: "Yeni Web Sitesi Teklif Talebi",
-      html: `
-        <h2>Yeni Teklif Talebi</h2>
-        <p><strong>Ad Soyad:</strong> ${name}</p>
-        <p><strong>Telefon:</strong> ${phone}</p>
-        <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
-        <p><strong>Mesaj:</strong> ${message}</p>
-      `,
-    });
+    transporter.sendMail({
+  from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
+  to: process.env.MAIL_TO,
+  subject: "Yeni Web Sitesi Teklif Talebi",
+  html: `
+    <h2>Yeni Teklif Talebi</h2>
+    <p><strong>Ad Soyad:</strong> ${name}</p>
+    <p><strong>Telefon:</strong> ${phone}</p>
+    <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
+    <p><strong>Mesaj:</strong> ${message}</p>
+  `,
+}).then(() => {
+  console.log("Mail başarıyla gönderildi.");
+}).catch((error) => {
+  console.error("Mail gönderme hatası:", error);
+});
 
-    console.log("Mail başarıyla gönderildi.");
+return res.json({
+  success: true,
+  message: "Talebiniz alındı."
+});
 
-    return res.json({
-      success: true,
-      message: "Talebiniz alındı."
-    });
   } catch (error) {
     console.error("Mail gönderme hatası:", error);
     return res.status(500).json({
