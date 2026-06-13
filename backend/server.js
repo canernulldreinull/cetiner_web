@@ -48,12 +48,14 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+});
 
     transporter.sendMail({
       from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
