@@ -77,11 +77,6 @@ return res.json({
   message: "Talebiniz alındı."
 });
 
-return res.json({
-  success: true,
-  message: "Talebiniz alındı."
-});
-
   } catch (error) {
     console.error("Mail gönderme hatası:", error);
     return res.status(500).json({
