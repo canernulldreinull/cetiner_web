@@ -307,47 +307,60 @@ footer a:hover { text-decoration: underline; }
 }
 @media (max-width: 768px) {
   #hero {
+    padding: 115px 18px 65px !important;
     min-height: auto !important;
-    padding: 120px 20px 70px !important;
   }
 
   .hero-title {
-    font-size: 2.45rem !important;
+    font-size: 2.35rem !important;
     line-height: 1.08 !important;
-    letter-spacing: -1.2px !important;
+    letter-spacing: -1px !important;
   }
 
   .hero-sub {
-    font-size: 1rem !important;
+    font-size: .98rem !important;
     line-height: 1.7 !important;
-    max-width: 100% !important;
   }
 
   .hero-btns {
     flex-direction: column !important;
-    width: 100% !important;
   }
 
   .hero-btns a {
     width: 100% !important;
   }
 
-  .hero-stats {
-    gap: 20px !important;
+  section {
+    padding: 72px 18px !important;
   }
 
-  .portfolio-grid,
+  .section-title {
+    font-size: 2rem !important;
+    line-height: 1.15 !important;
+  }
+
   .services-grid,
+  .why-grid,
   .packages-grid,
-  .why-grid {
+  .portfolio-grid,
+  .process-steps {
     grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .service-card,
+  .why-card,
+  .pkg,
+  .portfolio-card,
+  .faq-item {
+    border-radius: 16px !important;
   }
 
   .portfolio-thumb {
     height: 210px !important;
   }
 
-  .contact-form {
-    max-width: 100% !important;
+  .contact-items {
+    flex-direction: column !important;
   }
 }
