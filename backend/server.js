@@ -33,14 +33,7 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
   try {
     const { name, phone, brand, message } = req.body;
 
-    if (
-      !name ||
-      !phone ||
-      !message ||
-      name.trim().length < 2 ||
-      phone.trim().length < 10 ||
-      message.trim().length < 10
-    ) {
+    if (!name || !phone || !message || name.trim().length < 2 || phone.trim().length < 10 || message.trim().length < 10) {
       return res.status(400).json({
         success: false,
         message: "Lütfen tüm alanları doğru şekilde doldurun."
@@ -51,31 +44,34 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 15000,
       auth: {
         user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
+        pass: process.env.MAIL_PASS
+      }
     });
 
     await transporter.sendMail({
-  from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
-  to: process.env.MAIL_TO,
-  subject: "Yeni Web Sitesi Teklif Talebi",
-  html: `
-    <h2>Yeni Teklif Talebi</h2>
-    <p><strong>Ad Soyad:</strong> ${name}</p>
-    <p><strong>Telefon:</strong> ${phone}</p>
-    <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
-    <p><strong>Mesaj:</strong> ${message}</p>
-  `,
-});
+      from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
+      to: process.env.MAIL_TO,
+      subject: "Yeni Web Sitesi Teklif Talebi",
+      html: `
+        <h2>Yeni Teklif Talebi</h2>
+        <p><strong>Ad Soyad:</strong> ${name}</p>
+        <p><strong>Telefon:</strong> ${phone}</p>
+        <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
+        <p><strong>Mesaj:</strong> ${message}</p>
+      `
+    });
 
-console.log("Mail başarıyla gönderildi.");
+    console.log("Mail başarıyla gönderildi.");
 
-return res.json({
-  success: true,
-  message: "Talebiniz alındı."
-});
+    return res.json({
+      success: true,
+      message: "Talebiniz alındı."
+    });
 
   } catch (error) {
     console.error("Mail gönderme hatası:", error);
