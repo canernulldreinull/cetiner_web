@@ -253,7 +253,11 @@ footer a:hover { text-decoration: underline; }
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  background: #1E293B;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.95),
+    rgba(37, 99, 235, 0.10)
+  );
   border: 1px solid #334155;
   color: #F8FAFC;
   border-radius: 14px;
@@ -261,6 +265,7 @@ footer a:hover { text-decoration: underline; }
   font-family: inherit;
   font-size: .95rem;
   outline: none;
+  transition: all .25s ease;
 }
 
 .contact-form input::placeholder,
@@ -270,28 +275,13 @@ footer a:hover { text-decoration: underline; }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 1),
+    rgba(59, 130, 246, 0.18)
+  );
   border-color: #60A5FA;
-}
-
-.contact-form button {
-  background: #3B82F6;
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  padding: 15px 18px;
-  font-size: .96rem;
-  font-weight: 750;
-  cursor: pointer;
-  transition: background .2s ease, transform .2s ease;
-}
-
-.contact-form button:hover {
-  background: #2563EB;
-  transform: translateY(-1px);
-}
-.phone-wrapper {
-  position: relative;
-  width: 100%;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.12);
 }
 
 .phone-prefix {
