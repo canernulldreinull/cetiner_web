@@ -57,7 +57,7 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
       },
     });
 
-    transporter.sendMail({
+    await transporter.sendMail({
   from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
   to: process.env.MAIL_TO,
   subject: "Yeni Web Sitesi Teklif Talebi",
@@ -68,10 +68,13 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
     <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
     <p><strong>Mesaj:</strong> ${message}</p>
   `,
-}).then(() => {
-  console.log("Mail başarıyla gönderildi.");
-}).catch((error) => {
-  console.error("Mail gönderme hatası:", error);
+});
+
+console.log("Mail başarıyla gönderildi.");
+
+return res.json({
+  success: true,
+  message: "Talebiniz alındı."
 });
 
 return res.json({
