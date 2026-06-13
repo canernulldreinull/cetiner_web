@@ -419,15 +419,18 @@
     </p>
 
     <form class="contact-form reveal" id="contactForm">
-      <input type="text" id="name" placeholder="Adınız Soyadınız" required>
-      <input type="tel" id="phone" placeholder="Telefon Numaranız" required>
-      <input type="text" id="brand" placeholder="Marka / İşletme Adı">
-      <textarea id="message" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
+  <input type="hidden" name="access_key" value="36381370-5062-4b7c-8fee-c28854340662">
+  <input type="hidden" name="subject" value="Çetiner Web - Yeni Teklif Talebi">
 
-      <button type="submit">Talep Gönder</button>
+  <input type="text" id="name" name="Ad Soyad" placeholder="Adınız Soyadınız" required>
+  <input type="tel" id="phone" name="Telefon" placeholder="Telefon Numaranız" required>
+  <input type="text" id="brand" name="Marka / İşletme" placeholder="Marka / İşletme Adı">
+  <textarea id="message" name="Mesaj" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
 
-      <p class="form-status" id="formStatus"></p>
-    </form>
+  <button type="submit">Talep Gönder</button>
+
+  <p class="form-status" id="formStatus"></p>
+</form>
 
     <a href="https://wa.me/905467129239?text=Merhaba%2C%20web%20sitesi%20yapt%C4%B1rmak%20istiyorum.%20Bilgi%20alabilir%20miyim%3F"
        target="_blank" class="btn-wa reveal" style="display:inline-flex; margin-top:18px;">

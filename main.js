@@ -66,49 +66,39 @@ if (contactForm) {
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    formStatus.textContent = "Talebiniz gönderiliyor, lütfen bekleyin...";
+    formStatus.textContent = "Talebiniz gönderiliyor...";
 
-    const data = {
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value,
-      brand: document.getElementById("brand").value,
-      message: document.getElementById("message").value,
-    };
+    const formData = new FormData(contactForm);
 
     try {
-      const response = await fetch("https://cetiner-web-api.onrender.com/send-mail", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+        body: formData
       });
 
       const result = await response.json();
 
-      if (!response.ok) {
-        formStatus.textContent = result.message || "Bir hata oluştu. Lütfen tekrar deneyin.";
-        return;
-      }
-
       if (result.success) {
-  const whatsappText = encodeURIComponent(
-    `Merhaba, web sitesi için form üzerinden talep gönderdim. Detayları WhatsApp üzerinden de paylaşmak istiyorum.`
-  );
 
-  formStatus.innerHTML = `
-    Talebiniz başarıyla gönderildi. En kısa sürede dönüş yapacağım.<br>
-    <a href="https://wa.me/905467129239?text=${whatsappText}" target="_blank" class="form-whatsapp-link">
-      WhatsApp üzerinden devam et
-    </a>
-  `;
+        const whatsappText = encodeURIComponent(
+          "Merhaba, web sitesi için form üzerinden talep gönderdim. Detayları WhatsApp üzerinden de paylaşmak istiyorum."
+        );
 
-  contactForm.reset();
-} else {
-        formStatus.textContent = result.message || "Bir hata oluştu. Lütfen WhatsApp üzerinden iletişime geçin.";
+        formStatus.innerHTML = `
+          Talebiniz başarıyla gönderildi. En kısa sürede dönüş yapacağım.<br>
+          <a href="https://wa.me/905467129239?text=${whatsappText}" target="_blank" class="form-whatsapp-link">
+            WhatsApp üzerinden devam et
+          </a>
+        `;
+
+        contactForm.reset();
+
+      } else {
+        formStatus.textContent = "Bir hata oluştu. Lütfen tekrar deneyin.";
       }
+
     } catch (error) {
-      formStatus.textContent = "Bağlantı hatası. Lütfen birkaç saniye sonra tekrar deneyin.";
+      formStatus.textContent = "Bağlantı hatası. Lütfen tekrar deneyin.";
     }
   });
 }
