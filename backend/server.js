@@ -48,16 +48,16 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-});
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
 
-    transporter.sendMail({
+    await transporter.sendMail({
       from: `"Çetiner Web Form" <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_TO,
       subject: "Yeni Web Sitesi Teklif Talebi",
@@ -68,15 +68,20 @@ app.post("/send-mail", contactLimiter, async (req, res) => {
         <p><strong>Marka / İşletme:</strong> ${brand || "Belirtilmedi"}</p>
         <p><strong>Mesaj:</strong> ${message}</p>
       `,
-    }).catch(console.error);
+    });
 
-    res.json({
+    console.log("Mail başarıyla gönderildi.");
+
+    return res.json({
       success: true,
       message: "Talebiniz alındı."
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Mail gönderilemedi." });
+    console.error("Mail gönderme hatası:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Mail gönderilemedi."
+    });
   }
 });
 
