@@ -305,3 +305,110 @@ footer a:hover { text-decoration: underline; }
 .form-whatsapp-link:hover {
   text-decoration: underline;
 }
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  nav {
+    padding: 16px 22px;
+  }
+
+  .nav-logo img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nav-logo span {
+    font-size: 1rem;
+  }
+
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .hero {
+    padding: 130px 20px 80px;
+    min-height: auto;
+  }
+
+  .hero h1,
+  .hero-title {
+    font-size: clamp(2.4rem, 12vw, 4rem);
+    line-height: 1.05;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 92%;
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats,
+  .hero-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  section {
+    padding: 70px 20px;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .portfolio-grid,
+  .pricing-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-card {
+    max-width: 100%;
+  }
+
+  .portfolio-thumb {
+    height: 220px;
+  }
+
+  .contact-form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .contact-items {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-chip {
+    justify-content: center;
+  }
+
+  .footer {
+    text-align: center;
+  }
+}

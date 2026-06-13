@@ -1,4 +1,10 @@
-// NAV scroll effect
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+window.addEventListener("load", () => {
+  window.scrollTo(0, 0);
+});
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
