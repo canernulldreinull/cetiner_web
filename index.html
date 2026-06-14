@@ -439,19 +439,26 @@
   class="contact-form reveal"
   id="contactForm"
   action="https://cetiner-web-api.onrender.com/send-mail"
-  method="POST"
+  method="post"
 >
-  
-  
-<input type="text" id="name" name="name" maxlength="23" placeholder="Adınız Soyadınız" required>
+  <input type="text" id="name" name="name" maxlength="23" placeholder="Adınız Soyadınız" required>
+
   <div class="phone-wrapper">
-  <span class="phone-prefix">+90</span>
-  <input type="tel" id="phone" name="phone" maxlength="13" required>
-</div>
+    <span class="phone-prefix">+90</span>
+    <input type="tel" id="phone" name="phone" maxlength="13" required>
+  </div>
+
   <input type="text" id="brand" name="brand" placeholder="Marka / İşletme Adı">
+
   <textarea id="message" name="message" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
 
-  <button type="submit">Talep Gönder</button>
+  <button
+    type="submit"
+    formaction="https://cetiner-web-api.onrender.com/send-mail"
+    formmethod="post"
+  >
+    Talep Gönder
+  </button>
 
   <p class="form-status" id="formStatus"></p>
 </form>
