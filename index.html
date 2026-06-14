@@ -557,5 +557,17 @@ phoneInput.addEventListener("input", function (e) {
 });
 </script>
 
+<script>
+const nameInput = document.getElementById("name");
+
+nameInput.addEventListener("input", function () {
+  this.value = this.value
+    .toLocaleLowerCase("tr-TR")
+    .replace(/(^|\s)\S/g, (letter) =>
+      letter.toLocaleUpperCase("tr-TR")
+    );
+});
+</script>
+
 </body>
 </html>
