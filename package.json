@@ -1,0 +1,24 @@
+{
+  "name": "websitem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canernulldreinull/cetiner_web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/canernulldreinull/cetiner_web/issues"
+  },
+  "homepage": "https://github.com/canernulldreinull/cetiner_web#readme",
+  "dependencies": {
+    "resend": "^6.12.4"
+  }
+}
