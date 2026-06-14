@@ -425,3 +425,8 @@ footer a:hover { text-decoration: underline; }
     max-width: 100% !important;
   }
 }
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
