@@ -435,23 +435,21 @@
       Web sitesi fikrinizi paylaşın. İhtiyacınızı inceleyip size en uygun çözümle geri dönüş yapayım.
     </p>
 
-    <form class="contact-form reveal" id="contactForm">
-  <input type="hidden" name="access_key" value="36381370-5062-4b7c-8fee-c28854340662">
-  <input type="hidden" name="subject" value="Çetiner Web - Yeni Teklif Talebi">
-  <input type="text" id="name" name="Ad Soyad" maxlength="23" placeholder="Adınız Soyadınız" required>
+    <form
+  class="contact-form reveal"
+  id="contactForm"
+  action="https://cetiner-web-api.onrender.com/send-mail"
+  method="POST"
+>
+  
+  
+<input type="text" id="name" name="name" maxlength="23" placeholder="Adınız Soyadınız" required>
   <div class="phone-wrapper">
   <span class="phone-prefix">+90</span>
-  <input
-  type="tel"
-  id="phone"
-  name="Telefon"
-  maxlength="13"
-  placeholder=""
-  required
->
+  <input type="tel" id="phone" name="phone" maxlength="13" required>
 </div>
-  <input type="text" id="brand" name="Marka / İşletme" placeholder="Marka / İşletme Adı">
-  <textarea id="message" name="Mesaj" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
+  <input type="text" id="brand" name="brand" placeholder="Marka / İşletme Adı">
+  <textarea id="message" name="message" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
 
   <button type="submit">Talep Gönder</button>
 
