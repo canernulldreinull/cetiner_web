@@ -242,6 +242,35 @@ footer a:hover { text-decoration: underline; }
   line-height: 1.7;
   min-height: 70px;
 }
+.contact-form button {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+
+  background: linear-gradient(
+    135deg,
+    #2b7fff,
+    #5ea4ff
+  );
+
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+
+  transition: all 0.25s ease;
+}
+
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(43, 127, 255, 0.35);
+}
+
+.contact-form button:active {
+  transform: translateY(0);
+}
 .contact-form {
   display: grid;
   gap: 13px;

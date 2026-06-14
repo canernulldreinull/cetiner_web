@@ -127,7 +127,7 @@ if (nameInput) {
 }
 
 if (phoneInput) {
-  phoneInput.setAttribute("maxlength", "17");
+  phoneInput.setAttribute("maxlength", "18");
   phoneInput.setAttribute("inputmode", "numeric");
 
   phoneInput.addEventListener("input", () => {
