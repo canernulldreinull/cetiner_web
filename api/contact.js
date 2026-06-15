@@ -1,37 +1,11 @@
-const express = require("express");
-const cors = require("cors");
 const nodemailer = require("nodemailer");
-const rateLimit = require("express-rate-limit");
-const helmet = require("helmet");
 const https = require("https");
 const { createClient } = require("@supabase/supabase-js");
-const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, ".env") });
 
-const app = express();
-
-// --- 1. MİDDLEWARE VE GÜVENLİK AYARLARI ---
-app.set("trust proxy", 1);
-app.use(helmet());
-app.use(express.json()); // Gelen form verilerini (JSON) okuyabilmek için şart
-
-app.use(cors({
-  origin: "*", // Canlıya geçince buraya sadece kendi site linkini yazabilirsin
-  methods: ["POST"],
-  allowedHeaders: ["Content-Type"]
-}));
-
-// --- 2. SUPABASE BAĞLANTI AYARI ---
+// Supabase Bağlantısı
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-// --- 3. GÜVENLİK: RATE LİMİTER (Spam Engelleme) ---
-const contactLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 Dakika
-  max: 5, // Bir IP 15 dakikada en fazla 5 form gönderebilir
-  message: { success: false, error: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." }
-});
-
-// --- 4. NODEMAİLER (E-posta Gönderim Ayarı) ---
+// Nodemailer Bağlantısı
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -40,17 +14,31 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// --- 5. ANA FORM ROTASI (POST /api/contact) ---
-app.post("/api/contact", contactLimiter, async (req, res) => {
+// Vercel'in resmi istek yakalayıcı fonksiyonu (Express yerine bu kullanılır)
+module.exports = async (req, res) => {
+  // CORS Başlıkları (Frontend'in bağlanabilmesi için şart)
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Eğer tarayıcı kontrol isteği (OPTIONS) atarsa boş dön
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  // Sadece POST isteklerini kabul et
+  if (req.method !== "POST") {
+    return res.status(405).json({ success: false, error: "Method Not Allowed" });
+  }
+
   const { name, phone, brand, message } = req.body;
 
-  // Temel veri kontrolü
   if (!name || !phone || !brand) {
     return res.status(400).json({ success: false, error: "Lütfen zorunlu alanları doldurun." });
   }
 
   try {
-    // A. VERİ TABANINA KAYDET (Supabase)
+    // 1. SUPABASE'E KAYDET
     const { error: supabaseError } = await supabase
       .from("leads")
       .insert([{ name, phone, brand, message }]);
@@ -60,16 +48,16 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       throw new Error("Veri tabanına kaydedilemedi.");
     }
 
-    // B. E-POSTA BİLDİRİMİ GÖNDER
+    // 2. GMAİL BİLDİRİMİ GÖNDER
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Bildirim kendine geleceği için alıcı da sensin
+      to: process.env.EMAIL_USER,
       subject: `🚀 Yeni Müşteri Talebi: ${brand}`,
       text: `Siteden Yeni Form Geldi!\n\nİsim: ${name}\nTelefon: ${phone}\nFirma/Sektör: ${brand}\nMesaj: ${message}`
     };
     await transporter.sendMail(mailOptions);
 
-    // C. DİSCORD WEBHOOK BİLDİRİMİ (Eğer .env dosmanda link varsa çalışır)
+    // 3. DİSCORD BİLDİRİMİ GÖNDER (Varsa)
     if (process.env.DISCORD_WEBHOOK_URL) {
       const discordData = JSON.stringify({
         content: `🔥 **Yeni Müşteri Talebi Düştü!**\n**İsim:** ${name}\n**Telefon:** ${phone}\n**Marka:** ${brand}\n**Mesaj:** ${message}`
@@ -91,19 +79,11 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       reqDiscord.end();
     }
 
-    // Her şey başarılıysa frontend'e güzel haberi uçur
+    // Başarılı sonucu frontend'e dön
     return res.status(200).json({ success: true, message: "Talebiniz başarıyla alındı!" });
 
   } catch (error) {
     console.error("Sistem Hatası:", error);
     return res.status(500).json({ success: false, error: "Form işlenirken bir hata oluştu." });
   }
-});
-
-// --- 6. SUNUCUYU BAŞLATMA (Her Zaman En Altta Olmalı) ---
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`=========================================`);
-  console.log(`🚀 Çetiner Web Engine Active On Port: ${PORT}`);
-  console.log(`=========================================`);
-});
+};
