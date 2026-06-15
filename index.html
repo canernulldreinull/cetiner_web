@@ -488,84 +488,126 @@
 </a>
 
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ==========================================
+  // 1. MOBİL MENÜ KONTROLLERİ (YENİ)
+  // ==========================================
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  const mobLinks = document.querySelectorAll('.mob-link');
 
-  const form = e.target;
-  const status = document.getElementById("formStatus");
-
-  status.textContent = "Gönderiliyor...";
-
-  const formData = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    brand: document.getElementById("brand").value,
-    message: document.getElementById("message").value
-  };
-
-  try {
-    const response = await fetch("/api/send-mail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
     });
-
-    const result = await response.json();
-
-    if (result.success) {
-      status.textContent = "Talebiniz başarıyla gönderildi.";
-      form.reset();
-    } else {
-      status.textContent = "Gönderim sırasında hata oluştu.";
-    }
-  } catch (error) {
-    status.textContent = "Gönderim sırasında hata oluştu.";
-  }
-});
-</script>
-
-<script>
-const phoneInput = document.getElementById("phone");
-
-phoneInput.addEventListener("input", function (e) {
-  let value = e.target.value.replace(/\D/g, "");
-
-  if (value.startsWith("0")) {
-    value = value.substring(1);
   }
 
-  value = value.substring(0, 10);
-
-  let formatted = "";
-
-  if (value.length > 0) {
-    formatted += value.substring(0, 3);
-  }
-  if (value.length > 3) {
-    formatted += " " + value.substring(3, 6);
-  }
-  if (value.length > 6) {
-    formatted += " " + value.substring(6, 8);
-  }
-  if (value.length > 8) {
-    formatted += " " + value.substring(8, 10);
+  if (mobileClose && mobileMenu) {
+    mobileClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
   }
 
-  e.target.value = formatted;
-});
-</script>
+  mobLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  });
 
-<script>
-const nameInput = document.getElementById("name");
+  // ==========================================
+  // 2. İLETİŞİM FORMU GÖNDERİMİ (RESEND API)
+  // ==========================================
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-nameInput.addEventListener("input", function () {
-  this.value = this.value
-    .toLocaleLowerCase("tr-TR")
-    .replace(/(^|\s)\S/g, (letter) =>
-      letter.toLocaleUpperCase("tr-TR")
-    );
+      const form = e.target;
+      const status = document.getElementById("formStatus");
+
+      if (status) status.textContent = "Gönderiliyor...";
+
+      const formData = {
+        name: document.getElementById("name")?.value || "",
+        phone: document.getElementById("phone")?.value || "",
+        brand: document.getElementById("brand")?.value || "",
+        message: document.getElementById("message")?.value || ""
+      };
+
+      try {
+        const response = await fetch("/api/send-mail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (status) {
+          if (result.success) {
+            status.textContent = "Talebiniz başarıyla gönderildi.";
+            form.reset();
+          } else {
+            status.textContent = "Gönderim sırasında hata oluştu.";
+          }
+        }
+      } catch (error) {
+        if (status) status.textContent = "Gönderim sırasında hata oluştu.";
+      }
+    });
+  }
+
+  // ==========================================
+  // 3. TELEFON NUMARASI FORMATLAMA
+  // ==========================================
+  const phoneInput = document.getElementById("phone");
+  if (phoneInput) {
+    phoneInput.addEventListener("input", function (e) {
+      let value = e.target.value.replace(/\D/g, "");
+
+      if (value.startsWith("0")) {
+        value = value.substring(1);
+      }
+
+      value = value.substring(0, 10);
+
+      let formatted = "";
+
+      if (value.length > 0) {
+        formatted += value.substring(0, 3);
+      }
+      if (value.length > 3) {
+        formatted += " " + value.substring(3, 6);
+      }
+      if (value.length > 6) {
+        formatted += " " + value.substring(6, 8);
+      }
+      if (value.length > 8) {
+        formatted += " " + value.substring(8, 10);
+      }
+
+      e.target.value = formatted;
+    });
+  }
+
+  // ==========================================
+  // 4. İSİM ALANI BAŞ HARFLERİ BÜYÜTME
+  // ==========================================
+  const nameInput = document.getElementById("name");
+  if (nameInput) {
+    nameInput.addEventListener("input", function () {
+      this.value = this.value
+        .toLocaleLowerCase("tr-TR")
+        .replace(/(^|\s)\S/g, (letter) =>
+          letter.toLocaleUpperCase("tr-TR")
+        );
+    });
+  }
+
 });
 </script>
 
