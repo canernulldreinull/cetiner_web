@@ -397,21 +397,29 @@ footer a:hover { text-decoration: underline; }
 .form-whatsapp-link:hover {
   text-decoration: underline;
 }
+
 @media (max-width: 768px) {
+  
+  .nav-logo img {
+    width: 68px !important;
+  }
+
   #hero {
     padding: 115px 18px 65px !important;
     min-height: auto !important;
   }
 
   .hero-title {
-    font-size: 2.35rem !important;
+    font-size: 2.15rem !important;
     line-height: 1.08 !important;
-    letter-spacing: -1px !important;
+    letter-spacing: -1.4px !important;
+    margin-bottom: 18px !important;
   }
 
   .hero-sub {
-    font-size: .98rem !important;
+    font-size: 1rem !important;
     line-height: 1.7 !important;
+    max-width: 100% !important;
   }
 
   .hero-btns {
@@ -420,6 +428,18 @@ footer a:hover { text-decoration: underline; }
 
   .hero-btns a {
     width: 100% !important;
+  }
+
+  .hero-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px 16px !important;
+    margin-top: 40px !important;
+    padding-top: 24px !important;
+  }
+  
+  .stat-num {
+    font-size: 1.8rem !important;
   }
 
   section {
@@ -456,37 +476,9 @@ footer a:hover { text-decoration: underline; }
     flex-direction: column !important;
   }
 }
-/* MOBİL DÜZENLEMELER */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.15rem !important;
-    line-height: 1.08 !important;
-    letter-spacing: -1.4px !important;
-    margin-bottom: 18px !important;
-  }
 
-  .hero-sub {
-    font-size: 1rem !important;
-    line-height: 1.7 !important;
-    max-width: 100% !important;
-  }
-}
 .reveal {
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
-}
-/* Mobilde 4'lü İstatistik Alanını 2x2 Kare Düzen Yap */
-@media (max-width: 768px) {
-  .hero-stats {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important; /* Yan yana kesin 2 sütun */
-    gap: 24px 16px !important; /* Satır ve sütun boşluklarını dengeler */
-    margin-top: 40px !important;
-    padding-top: 24px !important;
-  }
-  
-  .stat-num {
-    font-size: 1.8rem !important;
-  }
 }
