@@ -519,47 +519,51 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 2. İLETİŞİM FORMU GÖNDERİMİ (RESEND API)
   // ==========================================
-  const contactForm = document.getElementById("contactForm");
-  if (contactForm) {
-    contactForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+  // ==========================================
+// 2. İLETİŞİM FORMU GÖNDERİMİ (YENİ SİSTEM)
+// ==========================================
+const contactForm = document.getElementById("contactForm");
+if (contactForm) {
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      const form = e.target;
-      const status = document.getElementById("formStatus");
+    const form = e.target;
+    const status = document.getElementById("formStatus");
 
-      if (status) status.textContent = "Gönderiliyor...";
+    if (status) status.textContent = "Gönderiliyor...";
 
-      const formData = {
-        name: document.getElementById("name")?.value || "",
-        phone: document.getElementById("phone")?.value || "",
-        brand: document.getElementById("brand")?.value || "",
-        message: document.getElementById("message")?.value || ""
-      };
+    const formData = {
+      name: document.getElementById("name")?.value || "",
+      phone: document.getElementById("phone")?.value || "",
+      brand: document.getElementById("brand")?.value || "",
+      message: document.getElementById("message")?.value || ""
+    };
 
-      try {
-        const response = await fetch("/api/send-mail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(formData)
-        });
+    try {
+      // 🟢 BURAYI GÜNCELLEDİK: Yeni Express rotamıza yönlendirdik
+      const response = await fetch("/api/contact", { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (status) {
-          if (result.success) {
-            status.textContent = "Talebiniz başarıyla gönderildi.";
-            form.reset();
-          } else {
-            status.textContent = "Gönderim sırasında hata oluştu.";
-          }
+      if (status) {
+        if (result.success) {
+          status.textContent = "Talebiniz başarıyla gönderildi.";
+          form.reset();
+        } else {
+          status.textContent = "Gönderim sırasında hata oluştu.";
         }
-      } catch (error) {
-        if (status) status.textContent = "Gönderim sırasında hata oluştu.";
       }
-    });
-  }
+    } catch (error) {
+      if (status) status.textContent = "Gönderim sırasında hata oluştu.";
+    }
+  });
+}
 
   // ==========================================
   // 3. TELEFON NUMARASI FORMATLAMA
