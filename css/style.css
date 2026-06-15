@@ -476,3 +476,17 @@ footer a:hover { text-decoration: underline; }
   transform: none !important;
   visibility: visible !important;
 }
+/* Mobilde 4'lü İstatistik Alanını 2x2 Kare Düzen Yap */
+@media (max-width: 768px) {
+  .hero-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* Yan yana kesin 2 sütun */
+    gap: 24px 16px !important; /* Satır ve sütun boşluklarını dengeler */
+    margin-top: 40px !important;
+    padding-top: 24px !important;
+  }
+  
+  .stat-num {
+    font-size: 1.8rem !important;
+  }
+}
