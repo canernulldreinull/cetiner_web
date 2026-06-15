@@ -610,20 +610,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
-
-<script>
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', () => {
-      // Aynı anda sadece bir menünün açık kalmasını istiyorsan aşağıdaki 3 satırı aktif et:
-      // document.querySelectorAll('.faq-item').forEach(otherItem => {
-      //   if (otherItem !== item) otherItem.classList.remove('active');
-      // });
-
-      // Tıklanan menüyü aç/kapat
-      item.classList.toggle('active');
-    });
-  });
-</script>
-
 </body>
 </html>

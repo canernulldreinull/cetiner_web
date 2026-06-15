@@ -482,17 +482,3 @@ footer a:hover { text-decoration: underline; }
   transform: none !important;
   visibility: visible !important;
 }
-/* SSS Açılış Mekanizması */
-.faq-item .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  opacity: 0;
-}
-
-/* Menü aktif olduğunda (tıklandığında) */
-.faq-item.active .faq-answer {
-  max-height: 300px; /* İçeriğin büyüklüğüne göre gerekirse artırabilirsin */
-  opacity: 1;
-  margin-top: 10px;
-}

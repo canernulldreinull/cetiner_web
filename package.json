@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/canernulldreinull/cetiner_web#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
+    "helmet": "^8.2.0",
     "resend": "^6.12.4"
   }
 }
