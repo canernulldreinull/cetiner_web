@@ -72,10 +72,56 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
 .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
 .nav-hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
 
-.mobile-menu { display: none; position: fixed; inset: 0; z-index: 99; background: var(--bg); flex-direction: column; align-items: center; justify-content: center; gap: 34px; }
-.mobile-menu.open { display: flex; }
-.mobile-menu a { color: var(--text); text-decoration: none; font-size: 1.45rem; font-weight: 750; }
-.mobile-close { position: absolute; top: 24px; right: 6%; background: none; border: none; color: var(--text); font-size: 2rem; cursor: pointer; }
+.mobile-menu { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 9999; /* Sayfadaki her şeyin en üstünde açılması için yükseltildi */
+  background: var(--bg); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 34px; 
+  
+  /* Menü ilk başta ekranın sağ dışında gizli dursun */
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* JavaScript 'active' sınıfını eklediğinde menü sağdan ekrana kaysın */
+.mobile-menu.active { 
+  transform: translateX(0);
+}
+
+.mobile-menu a { 
+  color: var(--text); 
+  text-decoration: none; 
+  font-size: 1.45rem; 
+  font-weight: 750; 
+  transition: color 0.2s ease;
+}
+
+/* Menü linklerine hover (üzerine gelme) efekti */
+.mobile-menu a:hover {
+  color: var(--primary-soft);
+}
+
+.mobile-close { 
+  position: absolute; 
+  top: 24px; 
+  right: 6%; 
+  background: none; 
+  border: none; 
+  color: var(--text); 
+  font-size: 2rem; 
+  cursor: pointer; 
+}
+
+/* Hamburger butonunun tıklama önceliğini garantiye alalım */
+.nav-hamburger {
+  z-index: 101;
+  pointer-events: auto; /* Tıklamayı engelleyen dış etkenleri deaktive eder */
+}
 
 #hero {
   position: relative;
