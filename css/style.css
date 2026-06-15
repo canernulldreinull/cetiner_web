@@ -51,11 +51,11 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
   font-weight:800;
 }
 
-.nav-logo img{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  object-fit:cover;
+.nav-logo img {
+  width: 80px;
+  height: auto;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .nav-logo span{
