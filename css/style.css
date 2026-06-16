@@ -151,7 +151,36 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
 .stat-lbl { color: var(--muted); font-size: .82rem; margin-top: 2px; }
 
 section { padding: 105px 6%; }
-#hizmetler, #paketler, #portfolio, #sss { background: var(--bg-soft); }
+/* Arka plan renk tanımlaması (Mevcut satırınız) */
+#hizmetler, #paketler, #portfolio, #sss { 
+  background: var(--bg-soft); 
+}
+
+/* --- SSS AÇILIR-KAPANIR (ACCORDION) İÇİN ZORUNLU CSS --- */
+
+/* 1. Cevap alanını başlangıçta gizle */
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  padding: 0 15px; 
+}
+
+/* 2. Soruya tıklandığında (active klası gelince) cevabı aç */
+.faq-item.active .faq-a {
+  max-height: 300px; /* İçeriğin rahat sığması için */
+  padding: 15px;
+}
+
+/* 3. Artı (+) işaretinin animasyonu için */
+.faq-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.faq-item.active .faq-arrow {
+  transform: rotate(45deg); /* +'yı X işaretine çevirir */
+}
 #neden, #surec, #iletisim { background: var(--bg); }
 .center { text-align: center; }
 .section-eyebrow { display: inline-block; color: var(--primary-soft); font-size: .74rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 13px; }

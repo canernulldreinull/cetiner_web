@@ -607,5 +607,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+document.querySelectorAll('.faq-q').forEach(button => {
+  button.addEventListener('click', () => {
+    const faqItem = button.parentElement;
+    
+    // Aynı anda sadece bir tanesinin açık kalmasını istiyorsanız alttaki 3 satırı kullanın:
+    document.querySelectorAll('.faq-item').forEach(item => {
+      if (item !== faqItem) item.classList.remove('active');
+    });
+
+    // Tıklanan elemanı aç veya kapat
+    faqItem.classList.toggle('active');
+  });
+});
+
 </body>
 </html>
