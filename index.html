@@ -433,30 +433,32 @@
     </p>
 
     <form class="contact-form reveal" id="contactForm">
-      <input type="text" id="name" name="name" maxlength="23" placeholder="Adınız Soyadınız" required>
+  <input type="text" id="name" name="name" minlength="3" maxlength="30" placeholder="Adınız Soyadınız" pattern="^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$" title="Lütfen gerçek bir ad soyad girin (En az 3 harf)." required>
 
-      <div class="phone-wrapper">
-        <span class="phone-prefix">+90</span>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          maxlength="14"
-          autocomplete="tel"
-          required
-        >
-      </div>
+  <div class="phone-wrapper">
+    <span class="phone-prefix">+90</span>
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      minlength="13"
+      maxlength="14"
+      autocomplete="tel"
+      placeholder="5XX XXX XX XX"
+      required
+    >
+  </div>
 
-      <input type="text" id="brand" name="brand" placeholder="Marka / İşletme Adı">
+  <input type="text" id="brand" name="brand" placeholder="Marka / İşletme Adı (Opsiyonel)">
 
-      <textarea id="message" name="message" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var?" required></textarea>
+  <textarea id="message" name="message" minlength="10" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var? (En az 10 karakter)" required></textarea>
 
-      <button type="submit">
-        Talep Gönder
-      </button>
+  <button type="submit">
+    Talep Gönder
+  </button>
 
-      <p class="form-status" id="formStatus"></p>
-    </form>
+  <p class="form-status" id="formStatus"></p>
+</form>
 
     <a href="https://wa.me/905467129239?text=Merhaba%2C%20web%20sitesi%20yapt%C4%B1rmak%20istiyorum.%20Bilgi%20alabilir%20miyim%3F"
        target="_blank" class="btn-wa reveal" style="display:inline-flex; margin-top:18px;">
@@ -526,29 +528,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3. İLETİŞİM FORMU GÖNDERİMİ
+  // 2. İLETİŞİM FORMU GÖNDERİMİ (GÜVENLİ VE SPAM KORUMALI)
   const contactForm = document.getElementById("contactForm");
   if (contactForm) {
     contactForm.addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const form = e.target;
       const status = document.getElementById("formStatus");
-      if (status) status.textContent = "Gönderiliyor...";
+      
+      const nameVal = document.getElementById("name")?.value.trim() || "";
+      const phoneVal = document.getElementById("phone")?.value.replace(/\s/g, "") || "";
+      const brandVal = document.getElementById("brand")?.value.trim() || "";
+      const messageVal = document.getElementById("message")?.value.trim() || "";
 
-      const rawPhone = document.getElementById("phone")?.value.replace(/\s/g, "") || "";
-      const fullPhone = "+90" + rawPhone;
+      // SPAM VE GEÇERSİZ VERİ KONTROLLERİ (JS GÜVENLİK DUVARI)
+      if (nameVal.length < 3) {
+        if (status) status.textContent = "Hata: İsim en az 3 karakter olmalıdır.";
+        return;
+      }
+
+      // Telefon numarası başında 0 olmadan tam 10 hane olmalı (Formatlama sonrası 5XX-XXX-XX-XX)
+      if (phoneVal.length !== 10 || !phoneVal.startsWith("5")) {
+        if (status) status.textContent = "Hata: Lütfen geçerli bir cep telefonu girin (5XX XXX XX XX).";
+        return;
+      }
+
+      if (messageVal.length < 10) {
+        if (status) status.textContent = "Hata: Mesajınız çok kısa, lütfen kendinizi biraz daha açıklayın (En az 10 karakter).";
+        return;
+      }
+
+      // Aynı mesajın arka arkaya gönderilmesini (Spam) engellemek için buton kilidi
+      const submitBtn = form.querySelector("button[type='submit']");
+      if (submitBtn) submitBtn.disabled = true;
+
+      if (status) status.textContent = "Gönderiliyor...";
+      const fullPhone = "+90" + phoneVal;
 
       const formData = {
-        name: document.getElementById("name")?.value || "",
+        name: nameVal,
         phone: fullPhone,
-        brand: document.getElementById("brand")?.value || "",
-        message: document.getElementById("message")?.value || ""
+        brand: brandVal,
+        message: messageVal
       };
 
       try {
         const response = await fetch("/api/send-mail", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify(formData)
         });
 
@@ -566,6 +596,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error("İstek Atma Hatası:", error);
         if (status) status.textContent = "Sunucuya bağlanılamadı.";
+      } finally {
+        // İşlem bitince butonu tekrar aktif et
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
   }
