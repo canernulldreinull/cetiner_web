@@ -237,16 +237,84 @@ section { padding: 105px 6%; }
 .portfolio-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 14px; }
 .tag { background: rgba(59,130,246,.10); color: #BFDBFE; border: 1px solid rgba(59,130,246,.18); font-size: .72rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
 
-.faq-list { max-width: 760px; margin: 56px auto 0; display: flex; flex-direction: column; gap: 12px; }
-.faq-item { overflow: hidden; }
-.faq-item.open { border-color: rgba(96,165,250,.38); }
-.faq-q { width: 100%; background: var(--card); color: var(--text); border: none; padding: 19px 22px; text-align: left; font-family: inherit; font-size: .95rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.faq-q:hover { background: var(--card-soft); }
-.faq-arrow { width: 28px; height: 28px; border-radius: 50%; background: rgba(59,130,246,.10); color: var(--primary-soft); display: flex; align-items: center; justify-content: center; transition: transform .25s; }
-.faq-item.open .faq-arrow { transform: rotate(45deg); }
-.faq-a { max-height: 0; overflow: hidden; background: rgba(15,23,42,.35); padding: 0 22px; transition: max-height .3s, padding .3s; }
-.faq-a p { color: var(--muted); font-size: .9rem; line-height: 1.75; }
-.faq-item.open .faq-a { max-height: 220px; padding: 16px 22px 20px; }
+.faq-list { 
+  max-width: 760px; 
+  margin: 56px auto 0; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
+
+.faq-item { 
+  overflow: hidden; 
+  background: var(--card); 
+  border: 1px solid var(--border); 
+  border-radius: var(--radius); 
+  transition: transform .22s, border-color .22s, background .22s; 
+}
+
+/* Öğe aktifleştiğinde sınır rengini parlat */
+.faq-item.active { 
+  border-color: rgba(96,165,250,.38); 
+}
+
+.faq-q { 
+  width: 100%; 
+  background: var(--card); 
+  color: var(--text); 
+  border: none; 
+  padding: 19px 22px; 
+  text-align: left; 
+  font-family: inherit; 
+  font-size: .95rem; 
+  font-weight: 700; 
+  cursor: pointer; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.faq-q:hover { 
+  background: var(--card-soft); 
+}
+
+.faq-arrow { 
+  width: 28px; 
+  height: 28px; 
+  border-radius: 50%; 
+  background: rgba(59,130,246,.10); 
+  color: var(--primary-soft); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  transition: transform .25s ease; 
+}
+
+/* Öğe aktifleştiğinde artı (+) işaretini döndür */
+.faq-item.active .faq-arrow { 
+  transform: rotate(45deg); 
+}
+
+/* Cevap alanının başlangıç durumu (Gizli) */
+.faq-a { 
+  max-height: 0; 
+  overflow: hidden; 
+  background: rgba(15,23,42,.35); 
+  padding: 0 22px; 
+  transition: max-height .3s ease-out, padding .3s ease; 
+}
+
+.faq-a p { 
+  color: var(--muted); 
+  font-size: .9rem; 
+  line-height: 1.75; 
+}
+
+/* Öğe aktifleştiğinde yumuşakça açılmasını sağlayan alan */
+.faq-item.active .faq-a { 
+  max-height: 300px; /* İçeriğin kesilmemesi için yükseltildi */
+  padding: 16px 22px 20px; 
+}
 
 #iletisim { text-align: center; position: relative; }
 #iletisim::before { display: none; }
