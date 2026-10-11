@@ -16,6 +16,14 @@
   --primary: #3B82F6;
   --primary-soft: #60A5FA;
   --wa: #25D366;
+  /* Beyaz metin taşıyan WhatsApp butonları için koyu ton (beyazla 5:1 kontrast) */
+  --wa-strong: #15803D;
+  --wa-strong-hover: #166534;
+  --navy: var(--bg);
+  --sky: var(--primary-soft);
+  --light: #F8FAFC;
+  --ink: #0F172A;
+  --ink-soft: #475569;
   --radius: 18px;
 }
 
@@ -51,9 +59,12 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
   font-weight:800;
 }
 
+/* Logo PNG'sinde işaretin çevresinde geniş saydam boşluk var; negatif margin
+   işaretin görünen boyutunu korurken menü yüksekliğini düşürür. */
 .nav-logo img {
   width: 80px;
   height: auto;
+  margin: -18px -12px;
   border-radius: 0;
   object-fit: contain;
 }
@@ -64,12 +75,13 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
   letter-spacing: -0.5px;
 }
 .nav-logo { font-size: 1.3rem; }
-.nav-links { display: flex; gap: 30px; list-style: none; }
-.nav-links a { color: var(--text-soft); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
-.nav-links a:hover { color: var(--text); }
-.nav-cta { background: var(--primary); color: #fff; border-radius: 999px; padding: 10px 20px; font-size: .875rem; font-weight: 700; text-decoration: none; transition: background .2s, transform .2s; }
-.nav-cta:hover { background: #2563EB; transform: translateY(-1px); }
-.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-links { display: flex; gap: 6px; list-style: none; }
+.nav-links a { display: block; padding: 8px 12px; border-radius: 999px; color: var(--text-soft); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s, background .2s; }
+.nav-links a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+/* Beyaz metinle 4.5:1 üzeri kontrast için --primary'den bir ton koyu mavi (5.17:1; hover 6.70:1) */
+.nav-cta { background: #2563EB; color: #fff; border-radius: 999px; padding: 10px 20px; font-size: .875rem; font-weight: 700; text-decoration: none; transition: background .2s, transform .2s; }
+.nav-cta:hover { background: #1D4ED8; transform: translateY(-1px); }
+.nav-hamburger { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 44px; height: 44px; margin-right: -10px; background: none; border: none; border-radius: 10px; cursor: pointer; padding: 0; }
 .nav-hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
 
 .mobile-menu { 
@@ -83,14 +95,18 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
   justify-content: center; 
   gap: 34px; 
   
-  /* Menü ilk başta ekranın sağ dışında gizli dursun */
+  /* Menü ilk başta ekranın sağ dışında gizli dursun; visibility kapalıyken
+     bağlantıları Tab sırasından ve ekran okuyuculardan çıkarır */
   transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
+  visibility: hidden;
+  transition: transform 0.3s ease-in-out, visibility 0s linear 0.3s;
 }
 
 /* JavaScript 'active' sınıfını eklediğinde menü sağdan ekrana kaysın */
-.mobile-menu.active { 
+.mobile-menu.active {
   transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s ease-in-out, visibility 0s;
 }
 
 .mobile-menu a { 
@@ -127,28 +143,47 @@ nav.scrolled { padding: 12px 6%; background: rgba(15,23,42,.94); }
   position: relative;
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
-  text-align: center;
-  padding: 130px 6% 90px;
-  background: radial-gradient(circle at 50% 0%, rgba(59,130,246,.13), transparent 34%), linear-gradient(180deg, #0F172A 0%, #111827 100%);
+  padding: 120px 6% 90px;
+  background: radial-gradient(circle at 18% 0%, rgba(59,130,246,.12), transparent 38%), linear-gradient(180deg, #0F172A 0%, #111827 100%);
   overflow: hidden;
 }
 #hero::before, #hero::after { display: none; }
-.hero-content { max-width: 900px; position: relative; z-index: 1; }
-.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: var(--text-soft); border-radius: 999px; padding: 7px 16px; font-size: .82rem; font-weight: 650; margin-bottom: 30px; animation: fadeUp .55s ease both; }
+.hero-inner { width: 100%; max-width: 1180px; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: var(--text-soft); border-radius: 999px; padding: 7px 16px; font-size: .82rem; font-weight: 600; margin-bottom: 26px; animation: fadeUp .55s ease both; }
 .hero-badge .dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; }
-.hero-title { font-size: clamp(2.55rem, 5.7vw, 5rem); font-weight: 850; line-height: 1.06; letter-spacing: -2.2px; color: var(--text); margin-bottom: 24px; animation: fadeUp .6s .05s ease both; }
+.hero-title { font-size: clamp(2.1rem, 4.4vw, 3.75rem); font-weight: 800; line-height: 1.08; letter-spacing: -1.6px; color: var(--text); margin-bottom: 22px; text-wrap: balance; animation: fadeUp .6s .05s ease both; }
 .hero-title .gradient-text { background: none; -webkit-text-fill-color: initial; color: var(--primary-soft); }
-.hero-sub { font-size: clamp(1rem, 1.8vw, 1.22rem); color: var(--text-soft); max-width: 720px; margin: 0 auto 40px; animation: fadeUp .6s .1s ease both; }
-.hero-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; animation: fadeUp .6s .15s ease both; }
-.btn-wa, .btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border-radius: 999px; font-size: .95rem; font-weight: 750; text-decoration: none; transition: transform .2s, background .2s, border-color .2s; }
-.btn-wa { background: var(--wa); color: #fff; border: none; box-shadow: 0 12px 28px rgba(37,211,102,.18); }
-.btn-wa:hover { background: #1EBE5D; transform: translateY(-2px); }
+.hero-sub { font-size: clamp(1rem, 1.4vw, 1.1rem); line-height: 1.7; color: var(--text-soft); max-width: 580px; margin: 0 0 36px; animation: fadeUp .6s .1s ease both; }
+.hero-btns { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 26px; animation: fadeUp .6s .15s ease both; }
+.btn-wa, .btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border-radius: 999px; font-size: .95rem; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s, border-color .2s; }
+.btn-wa { background: var(--wa-strong); color: #fff; border: none; box-shadow: 0 12px 28px rgba(37,211,102,.18); }
+.btn-wa:hover { background: var(--wa-strong-hover); transform: translateY(-2px); }
 .btn-outline { background: rgba(255,255,255,.04); color: var(--text); border: 1px solid rgba(255,255,255,.12); }
 .btn-outline:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.22); transform: translateY(-2px); }
-.hero-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 46px; margin-top: 64px; padding-top: 38px; border-top: 1px solid rgba(255,255,255,.08); animation: fadeUp .6s .2s ease both; }
-.stat { text-align: center; }
-.stat-num { color: var(--primary-soft); font-size: 1.8rem; font-weight: 850; }
-.stat-lbl { color: var(--muted); font-size: .82rem; margin-top: 2px; }
+#hero .btn-wa { padding: 16px 28px; font-size: 1rem; }
+.btn-text { display: inline-flex; align-items: center; gap: 8px; padding: 12px 2px; color: var(--text-soft); font-size: .95rem; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(203,213,225,.25); transition: color .2s, border-color .2s; }
+.btn-text:hover { color: var(--text); border-color: var(--primary-soft); }
+.btn-text span { transition: transform .2s; }
+.btn-text:hover span { transform: translateX(3px); }
+
+/* Hero'nun açık panel tarafı: hibrit açık-koyu dengesi */
+.hero-panel { background: var(--light); color: var(--ink); border-radius: 22px; padding: 30px 30px 26px; box-shadow: 0 30px 70px rgba(2,6,23,.45); animation: fadeUp .6s .2s ease both; }
+.hero-panel-title { font-size: .74rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: #1D4ED8; margin-bottom: 18px; }
+.hero-list { list-style: none; display: flex; flex-direction: column; }
+.hero-list li { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-top: 1px solid #E2E8F0; }
+.hero-list li:first-child { border-top: none; padding-top: 0; }
+.hero-check { flex-shrink: 0; width: 24px; height: 24px; padding: 3px; border-radius: 50%; color: #1D4ED8; background: #DBEAFE; }
+.hero-list strong { display: block; font-size: .98rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
+.hero-list span { display: block; font-size: .87rem; color: var(--ink-soft); margin-top: 2px; }
+.hero-panel-foot { margin-top: 18px; padding-top: 16px; border-top: 1px solid #E2E8F0; font-size: .87rem; color: var(--ink-soft); }
+.hero-panel-foot strong { color: var(--ink); }
+
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 44px; max-width: 640px; }
+}
+
+nav a:focus-visible, .nav-hamburger:focus-visible, .mobile-menu a:focus-visible, .mobile-close:focus-visible, #hero a:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 3px; }
 
 section { padding: 105px 6%; }
 /* Arka plan renk tanımlaması (Mevcut satırınız) */
@@ -156,31 +191,6 @@ section { padding: 105px 6%; }
   background: var(--bg-soft); 
 }
 
-/* --- SSS AÇILIR-KAPANIR (ACCORDION) İÇİN ZORUNLU CSS --- */
-
-/* 1. Cevap alanını başlangıçta gizle */
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out, padding 0.3s ease;
-  padding: 0 15px; 
-}
-
-/* 2. Soruya tıklandığında (active klası gelince) cevabı aç */
-.faq-item.active .faq-a {
-  max-height: 300px; /* İçeriğin rahat sığması için */
-  padding: 15px;
-}
-
-/* 3. Artı (+) işaretinin animasyonu için */
-.faq-arrow {
-  display: inline-block;
-  transition: transform 0.2s ease;
-}
-
-.faq-item.active .faq-arrow {
-  transform: rotate(45deg); /* +'yı X işaretine çevirir */
-}
 #neden, #surec, #iletisim { background: var(--bg); }
 .center { text-align: center; }
 .section-eyebrow { display: inline-block; color: var(--primary-soft); font-size: .74rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 13px; }
@@ -323,13 +333,18 @@ section { padding: 105px 6%; }
 .contact-items { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
 .contact-chip { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); color: var(--text-soft); border-radius: 999px; padding: 10px 18px; font-size: .86rem; }
 
-.wa-float { position: fixed; right: 28px; bottom: 28px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 30px rgba(37,211,102,.25); transition: transform .2s; animation: none; }
+.wa-float { position: fixed; right: 28px; bottom: 28px; z-index: 200; width: 58px; height: 58px; border-radius: 50%; background: var(--wa-strong); color: #fff; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 30px rgba(37,211,102,.25); transition: transform .2s; animation: none; }
 .wa-float:hover { transform: translateY(-3px) scale(1.04); }
 
 footer { background: var(--bg); border-top: 1px solid rgba(255,255,255,.08); padding: 40px 6%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .footer-note { color: var(--muted); font-size: .82rem; text-align: center; }
 footer a { color: var(--primary-soft); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
+/* Masaüstünde footer sağa yaslı; sayfa sonunda sağdaki bağlantı sabit WhatsApp
+   butonunun (sağ 28px + 58px) altında kalmasın. Mobilde footer ortalı, gerek yok. */
+@media (min-width: 769px) {
+  footer { padding-right: max(6%, 102px); }
+}
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
@@ -342,13 +357,13 @@ footer a:hover { text-decoration: underline; }
   section { padding: 78px 5%; }
   #hero { padding: 118px 5% 76px; }
   .hero-title { letter-spacing: -1.4px; }
-  .hero-stats { gap: 26px; }
   footer { justify-content: center; text-align: center; }
 }
 
 @media (max-width: 480px) {
   .hero-btns { flex-direction: column; align-items: stretch; }
   .btn-wa, .btn-outline { width: 100%; }
+  .hero-btns .btn-text { align-self: center; }
   .portfolio-grid, .packages-grid, .services-grid, .why-grid { grid-template-columns: 1fr; }
   .wa-float { right: 18px; bottom: 18px; }
 }
@@ -456,7 +471,7 @@ footer a:hover { text-decoration: underline; }
 }
 
 .portfolio-thumb::after {
-  content: "Canlı Demoyu Gör  ↗";
+  content: "Siteyi İncele  ↗";
   position: absolute;
   right: 18px;
   bottom: 18px;
@@ -738,17 +753,18 @@ footer a:hover { text-decoration: underline; }
   
   .nav-logo img {
     width: 68px !important;
+    margin: -15px -10px;
   }
 
   #hero {
-    padding: 115px 18px 65px !important;
+    padding: 104px 18px 64px !important;
     min-height: auto !important;
   }
 
   .hero-title {
-    font-size: 2.15rem !important;
-    line-height: 1.08 !important;
-    letter-spacing: -1.4px !important;
+    font-size: clamp(1.85rem, 7.4vw, 2.4rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -1px !important;
     margin-bottom: 18px !important;
   }
 
@@ -756,26 +772,12 @@ footer a:hover { text-decoration: underline; }
     font-size: 1rem !important;
     line-height: 1.7 !important;
     max-width: 100% !important;
+    margin-bottom: 30px !important;
   }
 
-  .hero-btns {
-    flex-direction: column !important;
-  }
-
-  .hero-btns a {
-    width: 100% !important;
-  }
-
-  .hero-stats {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 24px 16px !important;
-    margin-top: 40px !important;
-    padding-top: 24px !important;
-  }
-  
-  .stat-num {
-    font-size: 1.8rem !important;
+  .hero-panel {
+    padding: 24px 22px 22px;
+    border-radius: 18px;
   }
 
   section {
