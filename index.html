@@ -583,9 +583,15 @@
     >
   </div>
 
-  <input type="text" id="brand" name="brand" placeholder="Marka / İşletme Adı (Opsiyonel)">
+  <input type="text" id="brand" name="brand" maxlength="100" placeholder="Marka / İşletme Adı (Opsiyonel)">
 
-  <textarea id="message" name="message" minlength="10" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var? (En az 10 karakter)" required></textarea>
+  <textarea id="message" name="message" minlength="10" maxlength="2000" rows="4" placeholder="Kısaca nasıl bir web sitesine ihtiyacınız var? (En az 10 karakter)" required></textarea>
+
+  <!-- Spam tuzağı: ekranda görünmez, gerçek kullanıcılar boş bırakır -->
+  <div style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+    <label for="hp_ref">Bu alanı boş bırakın</label>
+    <input type="text" id="hp_ref" name="hp_ref" tabindex="-1" autocomplete="off">
+  </div>
 
   <button type="submit">
     Talep Gönder
@@ -722,7 +728,8 @@ document.addEventListener('DOMContentLoaded', () => {
         name: nameVal,
         phone: fullPhone,
         brand: brandVal,
-        message: messageVal
+        message: messageVal,
+        hp_ref: document.getElementById("hp_ref")?.value || ""
       };
 
       try {

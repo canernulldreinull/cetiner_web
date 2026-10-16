@@ -1,0 +1,12 @@
+# Yalnızca yerel geliştirme içindir; Vercel'e yüklenmez (canlı sitede yayınlanmaz).
+/tools
+/README-DEMO.md
+/demo/templates
+/demo/*/demo.json
+/demo-research
+
+# Gizli bilgiler: CLI ile yerelden deploy yapılırsa bile yüklenmez.
+.env
+.env.*
+!.env.example
+github-recovery-codes.txt
